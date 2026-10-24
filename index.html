@@ -567,6 +567,7 @@ function renderPlans(){
         </div>
         <button onclick="selectPlan(${i})">Träna</button>
         <button onclick="editPlan(${i})">Redigera</button>
+        <button class="danger" onclick="deletePlan(${i})">Ta bort schema</button>
       </div>
     `).join("") ||
     '<div class="empty">Skapa ditt första pass.</div>';
@@ -588,6 +589,20 @@ function deletePlan(index){
   const plan = state.plans[index];
   if(!plan) return;
 
+  if(!confirm(
+    `Vill du ta bort träningsschemat "${plan.name}"? ` +
+    "Tidigare träningshistorik behålls."
+  )){
+    return;
+  }
+
+  state.plans.splice(index,1);
+  save();
+  renderPlans();
+
+  const detail = document.getElementById("workoutDetail");
+  if(detail) detail.innerHTML = "";
+}
   if(!confirm(`Vill du ta bort träningspasset "${plan.name}" från schemat? Tidigare träningshistorik behålls.`)){
     return;
   }
