@@ -584,10 +584,85 @@ function renderPlans(){
     `).join("") :
     '<div class="empty">Dina genomförda pass visas här.</div>';
 }
+function deletePlan(index){
+  const plan = state.plans[index];
+  if(!plan) return;
 
+  if(!confirm(`Vill du ta bort träningspasset "${plan.name}" från schemat? Tidigare träningshistorik behålls.`)){
+    return;
+  }
+
+  state.plans.splice(index, 1);
+  save();
+
+  if(typeof renderPlans === "function") renderPlans();
+}
 function editPlan(index){
   const plan = state.plans[index];
+function addPlanExercise(index){
+  const plan = state.plans[index];
 
+  if(!plan || !Array.isArray(plan.exercises)){
+    alert("Kunde inte hitta träningspasset.");
+    return;
+  }
+
+  const name = prompt("Vad ska övningen heta?");
+  if(name === null) return;
+
+  const exerciseName = name.trim();
+  if(!exerciseName){
+    alert("Ange ett namn på övningen.");
+    return;
+  }
+
+  const setsInput = prompt("Hur många set?", "3");
+  if(setsInput === null) return;
+
+  const sets = Number(setsInput);
+  if(!Number.isInteger(sets) || sets < 1 || sets > 30){
+    alert("Ange mellan 1 och 30 set.");
+    return;
+  }
+
+  const repsInput = prompt("Hur många reps per set?", "8–12");
+  if(repsInput === null) return;
+
+  const reps = repsInput.trim();
+  if(!reps){
+    alert("Ange ett repetitionsmål.");
+    return;
+  }
+
+  plan.exercises.push([exerciseName, sets, reps]);
+  save();
+  editPlan(index);
+}
+
+function removePlanExercise(index, exerciseIndex){
+  const plan = state.plans[index];
+
+  if(!plan || !Array.isArray(plan.exercises) ||
+     !plan.exercises[exerciseIndex]){
+    alert("Kunde inte hitta övningen.");
+    return;
+  }
+
+  if(plan.exercises.length <= 1){
+    alert("Ett träningspass måste ha minst en övning.");
+    return;
+  }
+
+  const name = plan.exercises[exerciseIndex][0];
+
+  if(!confirm(`Ta bort "${name}" från träningspasset?`)){
+    return;
+  }
+
+  plan.exercises.splice(exerciseIndex, 1);
+  save();
+  editPlan(index);
+}
   const exerciseRows = plan.exercises.map((ex,i)=>`
     <div class="card" style="padding:10px">
       <label class="field">Övningsnamn</label>
