@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="sv">
 <head>
@@ -13,37 +12,38 @@
 :root{color-scheme:dark;--bg:#0b1118;--panel:#14212d;--panel2:#192a38;--line:#2b4051;--text:#f2f6fa;--muted:#a6b6c5;--green:#32d583;--blue:#65adff;--orange:#ffbd66;--red:#ff718b}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font:16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding-bottom:90px}
-header{padding:20px 17px 14px;background:#101a25;position:sticky;top:0;z-index:3;border-bottom:1px solid var(--line)}
+header{padding:18px 17px;background:#101a25;position:sticky;top:0;z-index:3;border-bottom:1px solid var(--line)}
 .brand{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--green);font-weight:800}
 h1{font-size:28px;margin:4px 0}header p{margin:4px 0;color:var(--muted);font-size:13px}
 main{max-width:700px;margin:auto;padding:14px}
 .page{display:none}.page.active{display:block}
 .card{background:linear-gradient(145deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:17px;padding:15px;margin-bottom:13px}
-.row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:9px;flex-wrap:wrap}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 h2{font-size:21px;margin:5px 0 14px}h3{font-size:16px;margin:0 0 9px}
-.title{font-size:17px;font-weight:750}.muted{color:var(--muted)}.small{font-size:12px}
+.title,.itemname{font-weight:750}.muted,.itemsub{color:var(--muted)}.small,.itemsub{font-size:12px}
 .big{font-size:32px;font-weight:850;letter-spacing:-.04em}
 .track{height:7px;background:#2a3b49;border-radius:9px;overflow:hidden;margin:9px 0}
 .fill{height:100%;background:var(--green);border-radius:9px;width:0}
 .macrogrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .macro{background:#0c151e;padding:10px;border-radius:11px;min-width:0}
 .macro strong{display:block;font-size:17px;margin:5px 0}
-button{font:inherit;color:var(--text);background:#23394a;border:1px solid var(--line);border-radius:11px;padding:11px 12px;cursor:pointer}
+button{font:inherit;color:var(--text);background:#23394a;border:1px solid var(--line);border-radius:11px;padding:10px 11px;cursor:pointer}
 button.primary{background:var(--green);color:#082416;border-color:var(--green);font-weight:800}
 button.ghost{background:transparent}button.danger{color:#ff9eaf;background:#291922;border-color:#673544}
-button:disabled{opacity:.45;cursor:not-allowed}
-input,select,textarea{width:100%;min-width:0;background:#0b141d;color:var(--text);border:1px solid #354b5e;border-radius:10px;padding:12px;font:inherit}
+input,select,textarea{width:100%;min-width:0;background:#0b141d;color:var(--text);border:1px solid #354b5e;border-radius:10px;padding:11px;font:inherit}
+input[type=checkbox]{width:22px;height:22px}
 label.field{display:block;color:var(--muted);font-size:12px;margin:10px 0 5px}
 .section{font-size:17px;font-weight:800;margin:19px 3px 10px}
-.fooditem{display:flex;align-items:center;justify-content:space-between;gap:9px;padding:11px 0;border-bottom:1px solid var(--line)}
+.fooditem{display:flex;align-items:center;gap:8px;padding:11px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
 .fooditem:last-child{border-bottom:0}
-.itemname{font-weight:700}.itemsub{font-size:12px;color:var(--muted);margin-top:4px}
+.fooditem>div:first-child{flex:1;min-width:100px}
+.itemsub{margin-top:4px;line-height:1.5}
 .quickgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.quick{background:#101b26;border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:7px}
+.quick{background:#101b26;border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:7px;min-width:0}
 .quick .emoji{font-size:23px}.quick button{margin-top:auto}
-.pill{font-size:11px;color:var(--muted);background:#0c151e;padding:5px 8px;border-radius:20px}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}.actions button{flex:1}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}
+.actions button{flex:1}
 .notice{font-size:12px;line-height:1.5;color:var(--muted);background:#0b151f;border-radius:11px;padding:11px;margin-top:10px}
 .empty{font-size:13px;color:var(--muted);padding:12px 0}
 .tabs{position:fixed;bottom:0;left:0;right:0;z-index:5;display:flex;justify-content:space-around;background:#101a25f5;border-top:1px solid var(--line);padding:8px 3px calc(8px + env(safe-area-inset-bottom));backdrop-filter:blur(15px)}
@@ -51,7 +51,9 @@ label.field{display:block;color:var(--muted);font-size:12px;margin:10px 0 5px}
 .tabs button span{font-size:21px}.tabs button.active{color:var(--green)}
 .stat{font-size:24px;font-weight:800}
 canvas{display:block;width:100%;height:230px}
-@media(min-width:600px){main{padding-top:22px}.quickgrid{grid-template-columns:repeat(2,1fr)}}
+.setrow{display:grid;grid-template-columns:32px 1fr 1fr 32px;gap:6px;align-items:center;margin-top:8px}
+.setrow input{padding:9px}
+@media(min-width:600px){main{padding-top:22px}}
 </style>
 </head>
 <body>
@@ -66,222 +68,143 @@ canvas{display:block;width:100%;height:230px}
   <div class="card">
     <div class="row">
       <div><div class="muted small">Kalorier idag</div><div class="big"><span id="homeKcal">0</span> <span class="small">kcal</span></div></div>
-      <div style="text-align:right"><div class="muted small">Dagsmål</div><strong id="homeGoal">3 200 kcal</strong></div>
+      <div style="text-align:right"><div class="muted small">Dagsmål</div><strong id="homeGoal">3200 kcal</strong></div>
     </div>
     <div class="track"><div class="fill" id="calFill"></div></div>
-    <div class="row small muted"><span id="remaining">3 200 kcal kvar</span><span id="percent">0 %</span></div>
+    <div class="row small muted"><span id="remaining"></span><span id="percent"></span></div>
   </div>
   <div class="macrogrid">
     <div class="macro"><span class="small muted">PROTEIN</span><strong><span id="homeP">0</span> g</strong><div class="track"><div class="fill" id="pFill"></div></div></div>
     <div class="macro"><span class="small muted">KOLHYDRATER</span><strong><span id="homeC">0</span> g</strong><div class="track"><div class="fill" id="cFill" style="background:var(--blue)"></div></div></div>
     <div class="macro"><span class="small muted">FETT</span><strong><span id="homeF">0</span> g</strong><div class="track"><div class="fill" id="fFill" style="background:var(--orange)"></div></div></div>
   </div>
-
   <div class="section">Snabbregistrera mat</div>
-  <div class="card">
-    <div class="quickgrid" id="quickMeals"></div>
-    <div class="notice">Ett tryck registrerar standardportionen direkt. Näringsvärden för proteinpulver behöver kompletteras från förpackningen.</div>
-  </div>
-
-  <div class="section">Dagens mat</div>
-  <div class="card" id="homeEntries"></div>
-
+  <div class="card"><div class="quickgrid" id="quickMeals"></div><div class="notice">Näringsvärden anges per 100 g. Kontrollera proteinpulvrets förpackning.</div></div>
+  <div class="section">Dagens mat</div><div class="card" id="homeEntries"></div>
   <div class="section">Vikt</div>
-  <div class="card">
-    <div class="row">
-      <div><div class="muted small">Senast registrerad</div><div class="big" id="homeWeight">– kg</div><div class="small muted" id="homeWeightDate">Ingen vikt registrerad</div></div>
-      <button class="primary" onclick="showPage('weight')">+ Registrera vikt</button>
-    </div>
-  </div>
-  <div class="section">Nästa träningspass</div>
-  <div class="card" id="nextWorkout"></div>
+  <div class="card"><div class="row"><div><div class="muted small">Senast registrerad</div><div class="big" id="homeWeight">– kg</div><div class="small muted" id="homeWeightDate"></div></div><button class="primary" onclick="showPage('weight')">+ Registrera vikt</button></div></div>
+  <div class="section">Nästa träningspass</div><div class="card" id="nextWorkout"></div>
 </section>
 
 <section class="page" id="food">
   <h2>Kostdagbok</h2>
-  <div class="card">
-    <h3>Sök livsmedel</h3>
-    <input id="foodSearch" placeholder="Sök exempelvis ris eller ägg" oninput="renderFoodSearch()">
+  <div class="card"><h3>Sök och redigera livsmedel</h3>
+    <input id="foodSearch" placeholder="Sök livsmedel" oninput="renderFoodSearch()">
     <div id="foodSearchResults"></div>
   </div>
-  <div class="card">
-    <h3>Registrera portion</h3>
+  <div class="card"><h3>Registrera portion</h3>
     <div id="selectedFoodName" class="muted">Välj ett livsmedel.</div>
     <div class="grid2">
-      <div><label class="field">Mängd (g)</label><input id="grams" type="number" value="100" min="1" inputmode="decimal" oninput="updatePortionPreview()"></div>
+      <div><label class="field">Mängd (g)</label><input id="grams" type="number" value="100" min="1" oninput="updatePortionPreview()"></div>
       <div><label class="field">Måltid</label><select id="meal"><option>Frukost</option><option>Lunch</option><option>Middag</option><option>Mellanmål</option></select></div>
     </div>
     <div class="notice" id="portionPreview">Välj mat för att beräkna näringen.</div>
     <div class="actions"><button class="primary" onclick="addSelectedFood()">Spara måltid</button><button onclick="openCustomFood()">+ Eget livsmedel</button></div>
   </div>
-  <div class="section">Dagens registreringar</div>
-  <div class="card" id="foodEntries"></div>
+  <div class="section">Dagens registreringar</div><div class="card" id="foodEntries"></div>
 </section>
 
 <section class="page" id="weight">
   <h2>Vikt & utveckling</h2>
-  <div class="card">
-    <div class="grid2">
-      <div><div class="muted small">Senaste vikt</div><div class="stat" id="latestWeight">– kg</div></div>
-      <div><div class="muted small">Förändring sedan start</div><div class="stat" id="weightChange">– kg</div></div>
-    </div>
-    <div class="notice">Vikten kan variera från dag till dag på grund av vätska och mat. Följ gärna trenden över flera veckor.</div>
-  </div>
-  <div class="card">
-    <div class="row"><h3>Viktkurva</h3><select id="weightRange" style="width:auto" onchange="renderWeight()"><option value="30">30 dagar</option><option value="90">90 dagar</option><option value="365">1 år</option><option value="all">All historik</option></select></div>
-    <canvas id="weightChart" aria-label="Diagram över viktutveckling"></canvas>
-    <div class="small muted" id="chartSummary"></div>
-  </div>
-  <div class="card">
-    <h3>Registrera vikt</h3>
-    <div class="grid2">
-      <div><label class="field">Vikt (kg)</label><input id="weightInput" type="number" min="20" max="400" step=".1" inputmode="decimal" placeholder="Ex. 97,2"></div>
-      <div><label class="field">Datum</label><input id="weightDate" type="date"></div>
-    </div>
-    <div class="actions"><button class="primary" onclick="saveWeight()">Spara vikt</button></div>
-  </div>
-  <div class="section">Vikthistorik</div>
-  <div class="card" id="weightHistory"></div>
+  <div class="card"><div class="grid2"><div><div class="muted small">Senaste vikt</div><div class="stat" id="latestWeight">– kg</div></div><div><div class="muted small">Förändring sedan start</div><div class="stat" id="weightChange">– kg</div></div></div></div>
+  <div class="card"><div class="row"><h3>Viktkurva</h3><select id="weightRange" style="width:auto" onchange="renderWeight()"><option value="30">30 dagar</option><option value="90">90 dagar</option><option value="365">1 år</option><option value="all">All historik</option></select></div><canvas id="weightChart"></canvas><div class="small muted" id="chartSummary"></div></div>
+  <div class="card"><h3>Registrera vikt</h3><div class="grid2"><div><label class="field">Vikt (kg)</label><input id="weightInput" type="number" min="20" max="400" step=".1" placeholder="97,2"></div><div><label class="field">Datum</label><input id="weightDate" type="date"></div></div><div class="actions"><button class="primary" onclick="saveWeight()">Spara vikt</button></div></div>
+  <div class="section">Vikthistorik</div><div class="card" id="weightHistory"></div>
 </section>
 
 <section class="page" id="training">
   <h2>Träning</h2>
-  <div class="card"><div class="row"><div><h3>Träningsschema</h3><div class="small muted">Välj ett pass</div></div><button onclick="openNewPlan()">+ Skapa pass</button></div><div id="plansList"></div></div>
+  <div class="card"><div class="row"><div><h3>Träningsscheman</h3><div class="small muted">Redigera pass innan du börjar träna</div></div><button onclick="openNewPlan()">+ Skapa pass</button></div><div id="plansList"></div></div>
   <div class="card" id="workoutDetail"><div class="empty">Välj ett pass i listan.</div></div>
-  <div class="section">Träningshistorik</div>
-  <div class="card" id="workoutHistory"></div>
+  <div class="section">Pass per vecka</div>
+  <div class="card"><div class="row"><h3>Genomförda träningspass</h3><select id="trainingRange" style="width:auto" onchange="renderTrainingChart()"><option value="8">8 veckor</option><option value="12">12 veckor</option><option value="26">26 veckor</option><option value="52">52 veckor</option></select></div><canvas id="trainingChart"></canvas><div class="small muted" id="trainingChartSummary"></div></div>
+  <div class="section">Träningshistorik</div><div class="card" id="workoutHistory"></div>
 </section>
 
 <section class="page" id="settings">
   <h2>Mål & säkerhetskopia</h2>
-  <div class="card">
-    <h3>Dagliga mål</h3>
+  <div class="card"><h3>Dagliga mål</h3>
     <label class="field">Kalorier</label><input id="goalKcal" type="number">
     <div class="grid2"><div><label class="field">Protein (g)</label><input id="goalP" type="number"></div><div><label class="field">Kolhydrater (g)</label><input id="goalC" type="number"></div></div>
-    <label class="field">Fett (g)</label><input id="goalF" type="number">
-    <div class="actions"><button class="primary" onclick="saveGoals()">Spara mål</button></div>
+    <label class="field">Fett (g)</label><input id="goalF" type="number"><div class="actions"><button class="primary" onclick="saveGoals()">Spara mål</button></div>
   </div>
-  <div class="card">
-    <h3>Säkerhetskopia</h3>
-    <p class="muted small">Exportera data regelbundet. Filen innehåller kostdagbok, livsmedel, vikt och träningshistorik.</p>
-    <div class="actions"><button onclick="exportData()">Exportera backup</button><button onclick="document.getElementById('importFile').click()">Importera backup</button><input id="importFile" type="file" accept=".json,application/json" hidden onchange="importData(event)"></div>
-    <div class="notice">Import ersätter appens nuvarande data. Exportera därför en backup först. Dela aldrig backupfilen offentligt.</div>
-  </div>
+  <div class="card"><h3>Säkerhetskopia</h3><p class="muted small">Exportera regelbundet. Backupen innehåller kost, livsmedel, vikt och träningshistorik.</p><div class="actions"><button onclick="exportData()">Exportera backup</button><button onclick="document.getElementById('importFile').click()">Importera backup</button><input id="importFile" type="file" accept=".json,application/json" hidden onchange="importData(event)"></div><div class="notice">Import ersätter nuvarande data. Exportera en backup först.</div></div>
 </section>
 </main>
 
 <nav class="tabs">
-  <button class="active" data-page="home" onclick="showPage('home')"><span>⌂</span>Idag</button>
-  <button data-page="food" onclick="showPage('food')"><span>♧</span>Mat</button>
-  <button data-page="weight" onclick="showPage('weight')"><span>⚖</span>Vikt</button>
-  <button data-page="training" onclick="showPage('training')"><span>♜</span>Träning</button>
-  <button data-page="settings" onclick="showPage('settings')"><span>⚙</span>Mer</button>
+<button class="active" data-page="home" onclick="showPage('home')"><span>⌂</span>Idag</button>
+<button data-page="food" onclick="showPage('food')"><span>♧</span>Mat</button>
+<button data-page="weight" onclick="showPage('weight')"><span>⚖</span>Vikt</button>
+<button data-page="training" onclick="showPage('training')"><span>♜</span>Träning</button>
+<button data-page="settings" onclick="showPage('settings')"><span>⚙</span>Mer</button>
 </nav>
 
 <div id="modal" style="display:none;position:fixed;inset:0;background:#000b;z-index:10;padding:15px;overflow:auto">
-  <div class="card" style="max-width:600px;margin:30px auto">
-    <div class="row"><h2 id="modalTitle">Ny post</h2><button onclick="closeModal()">Stäng ✕</button></div>
-    <div id="modalBody"></div>
-  </div>
-</div>
+<div class="card" style="max-width:600px;margin:25px auto">
+<div class="row"><h2 id="modalTitle">Redigera</h2><button onclick="closeModal()">Stäng ✕</button></div><div id="modalBody"></div>
+</div></div>
 
 <script>
 "use strict";
 
-/*
- FormLog compatibility:
- Existing storage key retained: formlog_v1
- Existing entries, logs, goals and weights are loaded and preserved.
- New food defaults are added only if their names are not already present.
-*/
+const STORAGE_KEY="formlog_v1";
+const today=()=>{const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
+const fmt=n=>Math.round(Number(n)||0).toLocaleString("sv-SE");
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const num=v=>Number.isFinite(Number(v))?Number(v):0;
 
-const STORAGE_KEY = "formlog_v1";
-const today = () => new Date().toISOString().slice(0,10);
-const fmt = n => Math.round(Number(n)||0).toLocaleString("sv-SE");
-const esc = s => String(s ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-
-const starterFoods = [
- {name:"Arla vaniljkvarg",kcal:55,p:8.8,c:4,f:.2},
- {name:"ICA Basic naturell lättkvarg",kcal:60,p:11,c:3.4,f:.2},
- {name:"Kycklingbröstfilé, tillagad",kcal:165,p:31,c:0,f:3.6},
- {name:"Vassleproteinpulver – värden saknas",kcal:0,p:0,c:0,f:0,unconfirmed:true},
- {name:"Kycklingbröst, tillagat",kcal:165,p:31,c:0,f:3.6},
- {name:"Kvarg naturell",kcal:65,p:11,c:4,f:.2},
- {name:"Havregryn",kcal:370,p:13,c:60,f:7},
- {name:"Ägg",kcal:143,p:13,c:1.1,f:9.5},
- {name:"Ris, kokt",kcal:130,p:2.7,c:28,f:.3},
- {name:"Banan",kcal:89,p:1.1,c:23,f:.3},
- {name:"Olivolja",kcal:884,p:0,c:0,f:100},
- {name:"Potatis, kokt",kcal:87,p:1.9,c:20,f:.1},
- {name:"Lax, tillagad",kcal:208,p:20,c:0,f:13},
- {name:"Pasta, kokt",kcal:158,p:5.8,c:31,f:.9},
- {name:"Bröd, fullkorn",kcal:247,p:13,c:41,f:4.2}
+const starterFoods=[
+{name:"Arla vaniljkvarg",kcal:55,p:8.8,c:4,f:.2},
+{name:"ICA Basic naturell lättkvarg",kcal:60,p:11,c:3.4,f:.2},
+{name:"Kycklingbröstfilé, tillagad",kcal:165,p:31,c:0,f:3.6},
+{name:"Vassleproteinpulver – värden saknas",kcal:0,p:0,c:0,f:0,unconfirmed:true},
+{name:"Kycklingbröst, tillagat",kcal:165,p:31,c:0,f:3.6},
+{name:"Kvarg naturell",kcal:65,p:11,c:4,f:.2},
+{name:"Havregryn",kcal:370,p:13,c:60,f:7},
+{name:"Ägg",kcal:143,p:13,c:1.1,f:9.5},
+{name:"Ris, kokt",kcal:130,p:2.7,c:28,f:.3},
+{name:"Banan",kcal:89,p:1.1,c:23,f:.3},
+{name:"Olivolja",kcal:884,p:0,c:0,f:100},
+{name:"Potatis, kokt",kcal:87,p:1.9,c:20,f:.1},
+{name:"Lax, tillagad",kcal:208,p:20,c:0,f:13},
+{name:"Pasta, kokt",kcal:158,p:5.8,c:31,f:.9},
+{name:"Bröd, fullkorn",kcal:247,p:13,c:41,f:4.2}
 ];
-
-const starterPlans = [
- {name:"Push – bröst/axlar/triceps",exercises:[["Kabel-flyes",4,"10–15"],["Bröstpress",4,"8–12"],["Decline bröstpress",4,"8–12"],["Övre bröstpress",4,"10–12"],["Sidolyft",4,"12–20"],["Triceps pushdown",3,"10–15"]]},
- {name:"Pull – rygg/biceps",exercises:[["Latsdrag",4,"8–12"],["Sittande rodd",4,"8–12"],["Kabel-pullover",3,"10–15"],["Bakre axlar",4,"12–20"],["Bicepscurl",3,"8–12"]]},
- {name:"Ben",exercises:[["Benpress",4,"8–12"],["Lårcurl",4,"10–15"],["Benspark",3,"10–15"],["Vadpress",4,"10–20"]]}
+const starterPlans=[
+{name:"Push – bröst/axlar/triceps",exercises:[["Kabel-flyes",4,"10–15"],["Bröstpress",4,"8–12"],["Decline bröstpress",4,"8–12"],["Övre bröstpress",4,"10–12"],["Sidolyft",4,"12–20"],["Triceps pushdown",3,"10–15"]]},
+{name:"Pull – rygg/biceps",exercises:[["Latsdrag",4,"8–12"],["Sittande rodd",4,"8–12"],["Kabel-pullover",3,"10–15"],["Bakre axlar",4,"12–20"],["Bicepscurl",3,"8–12"]]},
+{name:"Ben",exercises:[["Benpress",4,"8–12"],["Lårcurl",4,"10–15"],["Benspark",3,"10–15"],["Vadpress",4,"10–20"]]}
 ];
-
-const quickMeals = [
- {label:"Arla vaniljkvarg",emoji:"🥣",food:"Arla vaniljkvarg",grams:500,meal:"Mellanmål"},
- {label:"ICA Basic kvarg",emoji:"🥣",food:"ICA Basic naturell lättkvarg",grams:150,meal:"Mellanmål"},
- {label:"Kyckling, tillagad",emoji:"🍗",food:"Kycklingbröstfilé, tillagad",grams:200,meal:"Lunch"},
- {label:"Proteinpulver",emoji:"🥤",food:"Vassleproteinpulver – värden saknas",grams:30,meal:"Mellanmål",unconfirmed:true}
+const quickMeals=[
+{label:"Arla vaniljkvarg",emoji:"🥣",food:"Arla vaniljkvarg",grams:500,meal:"Mellanmål"},
+{label:"ICA Basic kvarg",emoji:"🥣",food:"ICA Basic naturell lättkvarg",grams:150,meal:"Mellanmål"},
+{label:"Kyckling, tillagad",emoji:"🍗",food:"Kycklingbröstfilé, tillagad",grams:200,meal:"Lunch"},
+{label:"Proteinpulver",emoji:"🥤",food:"Vassleproteinpulver – värden saknas",grams:30,meal:"Mellanmål",unconfirmed:true}
 ];
-
-function freshState(){
- return {foods:starterFoods.map(f=>({...f})),entries:[],plans:starterPlans.map(p=>({...p,exercises:p.exercises.map(e=>[...e])})),logs:[],goals:{kcal:3200,p:200,c:400,f:90},weights:[]};
-}
-
-let state;
-let selectedFood = null;
-let selectedPlanIndex = 0;
+function freshState(){return{foods:starterFoods.map(f=>({...f})),entries:[],plans:starterPlans.map(p=>({...p,exercises:p.exercises.map(e=>[...e])})),logs:[],goals:{kcal:3200,p:200,c:400,f:90},weights:[]}}
+let state,selectedFood=null,selectedPlanIndex=null;
 
 function loadState(){
- let old = null;
- try { old = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null"); } catch(e) {}
- if(old && typeof old === "object"){
-   state = {...freshState(),...old};
-   if(!Array.isArray(state.foods)) state.foods=[];
-   if(!Array.isArray(state.entries)) state.entries=[];
-   if(!Array.isArray(state.plans)) state.plans=[];
-   if(!Array.isArray(state.logs)) state.logs=[];
-   if(!Array.isArray(state.weights)) state.weights=[];
-   state.goals = {...freshState().goals,...(state.goals||{})};
-   // Add new products only if absent. Never replace existing product values.
-   for(const food of starterFoods){
-     if(!state.foods.some(f=>f.name===food.name)) state.foods.push({...food});
-   }
-   // Keep old data. Save the merged schema under the same key.
-   localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
- } else {
-   state=freshState();
-   localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
- }
+ let old=null;
+ try{old=JSON.parse(localStorage.getItem(STORAGE_KEY)||"null")}catch(e){}
+ if(old&&typeof old==="object"){
+  state={...freshState(),...old};
+  for(const k of ["foods","entries","plans","logs","weights"])if(!Array.isArray(state[k]))state[k]=[];
+  state.goals={...freshState().goals,...(state.goals||{})};
+  for(const f of starterFoods)if(!state.foods.some(x=>x.name===f.name))state.foods.push({...f});
+  state.plans=state.plans.map(p=>({...p,exercises:Array.isArray(p.exercises)?p.exercises.map(e=>Array.isArray(e)?e:[e.name||"Övning",e.sets||3,e.reps||"8–12"]):[]}));
+  // Do not replace any existing food values or registrations.
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+ }else{state=freshState();localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}
 }
-
 function save(){
- try{
-   localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
-   renderAll();
- }catch(e){
-   alert("Kunde inte spara data. Exportera en säkerhetskopia och kontrollera lagringsutrymmet i webbläsaren.");
- }
+ try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));renderAll()}
+ catch(e){alert("Kunde inte spara data. Exportera en säkerhetskopia och kontrollera lagringsutrymmet.")}
 }
-
 function entriesToday(){return state.entries.filter(e=>e.date===today())}
-function totals(){
- return entriesToday().reduce((a,e)=>({
-  kcal:a.kcal+(Number(e.kcal)||0),p:a.p+(Number(e.p)||0),
-  c:a.c+(Number(e.c)||0),f:a.f+(Number(e.f)||0)
- }),{kcal:0,p:0,c:0,f:0});
-}
-function setFill(id,n,g){
- const el=document.getElementById(id);
- if(el) el.style.width=Math.max(0,Math.min(100,g?100*n/g:0))+"%";
-}
+function totals(){return entriesToday().reduce((a,e)=>({kcal:a.kcal+num(e.kcal),p:a.p+num(e.p),c:a.c+num(e.c),f:a.f+num(e.f)}),{kcal:0,p:0,c:0,f:0})}
+function setFill(id,n,g){const el=document.getElementById(id);if(el)el.style.width=Math.max(0,Math.min(100,g?100*n/g:0))+"%"}
 
 function renderDashboard(){
  const t=totals(),g=state.goals;
@@ -290,683 +213,278 @@ function renderDashboard(){
  document.getElementById("remaining").textContent=fmt(Math.max(0,g.kcal-t.kcal))+" kcal kvar";
  document.getElementById("percent").textContent=Math.round(t.kcal/Math.max(1,g.kcal)*100)+" %";
  setFill("calFill",t.kcal,g.kcal);
- for(const k of ["p","c","f"]){
-  document.getElementById("home"+k.toUpperCase()).textContent=fmt(t[k]);
-  setFill(k+"Fill",t[k],g[k]);
- }
+ for(const k of ["p","c","f"]){document.getElementById("home"+k.toUpperCase()).textContent=fmt(t[k]);setFill(k+"Fill",t[k],g[k])}
  renderQuickMeals();
- const entries=entriesToday();
- document.getElementById("homeEntries").innerHTML=entries.length?entries.map((e,i)=>`
-  <div class="fooditem"><div><div class="itemname">${esc(e.name)}</div><div class="itemsub">${esc(e.meal||"Måltid")} · ${fmt(e.grams)} g</div></div>
-  <div style="text-align:right"><strong>${fmt(e.kcal)} kcal</strong><br><button class="danger" style="padding:5px 8px;margin-top:5px" onclick="deleteEntry(${state.entries.indexOf(e)})">Ta bort</button></div></div>`).join(""):'<div class="empty">Ingen mat registrerad idag.</div>';
- const last=[...state.weights].sort((a,b)=>b.date.localeCompare(a.date))[0];
- document.getElementById("homeWeight").textContent=last?Number(last.kg).toLocaleString("sv-SE")+" kg":"– kg";
+ const arr=entriesToday();
+ document.getElementById("homeEntries").innerHTML=arr.length?arr.map(e=>`<div class="fooditem"><div><div class="itemname">${esc(e.name)}</div><div class="itemsub">${esc(e.meal||"Måltid")} · ${fmt(e.grams)} g</div></div><div><strong>${fmt(e.kcal)} kcal</strong><br><button class="danger" onclick="deleteEntry(${state.entries.indexOf(e)})">Ta bort</button></div></div>`).join(""):'<div class="empty">Ingen mat registrerad idag.</div>';
+ const last=[...state.weights].sort((a,b)=>String(b.date).localeCompare(String(a.date)))[0];
+ document.getElementById("homeWeight").textContent=last?num(last.kg).toLocaleString("sv-SE")+" kg":"– kg";
  document.getElementById("homeWeightDate").textContent=last?last.date:"Ingen vikt registrerad";
- document.getElementById("nextWorkout").innerHTML=state.plans.length?`<div class="row"><div><strong>${esc(state.plans[0].name)}</strong><div class="itemsub">${state.plans[0].exercises.length} övningar</div></div><button onclick="showPage('training')">Visa pass</button></div>`:'<div class="empty">Skapa ditt första pass under Träning.</div>';
+ document.getElementById("nextWorkout").innerHTML=state.plans.length?`<strong>${esc(state.plans[0].name)}</strong><div class="itemsub">${state.plans[0].exercises.length} övningar</div><button onclick="showPage('training')">Visa pass</button>`:'<div class="empty">Skapa ditt första pass under Träning.</div>';
 }
-
 function renderQuickMeals(){
  document.getElementById("quickMeals").innerHTML=quickMeals.map((q,i)=>{
-  const food=state.foods.find(f=>f.name===q.food);
-  const unknown=q.unconfirmed || !food || food.unconfirmed;
-  const kcal=food?food.kcal*q.grams/100:0;
-  const sub=unknown?"Näringsvärden saknas":fmt(kcal)+" kcal · "+q.grams+" g";
-  return `<div class="quick"><div class="emoji">${q.emoji}</div><div class="itemname">${esc(q.label)}</div><div class="itemsub">${sub}</div><button class="primary" ${unknown?"disabled":""} onclick="addQuickMeal(${i})">${unknown?"Lägg till värden först":"+ Lägg till"}</button></div>`;
+  const f=state.foods.find(x=>x.name===q.food),unknown=!f||f.unconfirmed||q.unconfirmed;
+  return `<div class="quick"><div class="emoji">${q.emoji}</div><div class="itemname">${esc(q.label)}</div><div class="itemsub">${unknown?"Näringsvärden saknas":fmt(f.kcal*q.grams/100)+" kcal · "+q.grams+" g"}</div><button class="primary" ${unknown?"disabled":""} onclick="addQuickMeal(${i})">${unknown?"Lägg till värden först":"+ Lägg till"}</button></div>`;
  }).join("");
 }
-
-function addQuickMeal(i){
- const q=quickMeals[i];
- const food=state.foods.find(f=>f.name===q.food);
- if(!food||q.unconfirmed||food.unconfirmed){
-  alert("Lägg in näringsvärdena från proteinpulvrets förpackning först.");
-  return;
- }
- addFood(food,q.grams,q.meal);
-}
-
-function addFood(food,grams,meal){
- const factor=grams/100;
- state.entries.push({name:food.name,grams,meal,date:today(),kcal:food.kcal*factor,p:food.p*factor,c:food.c*factor,f:food.f*factor});
- save();
-}
-function deleteEntry(index){
- if(!confirm("Ta bort den här måltiden?"))return;
- state.entries.splice(index,1);save();
-}
+function addQuickMeal(i){const q=quickMeals[i],f=state.foods.find(x=>x.name===q.food);if(!f||f.unconfirmed){alert("Lägg in näringsvärdena först.");return}addFood(f,q.grams,q.meal)}
+function addFood(f,grams,meal){const m=grams/100;state.entries.push({name:f.name,grams,meal,date:today(),kcal:f.kcal*m,p:f.p*m,c:f.c*m,f:f.f*m});save()}
+function deleteEntry(i){if(confirm("Ta bort den här måltiden?")){state.entries.splice(i,1);save()}}
 function renderFoodSearch(){
-  const q = (document.getElementById("foodSearch").value||"")
-    .toLocaleLowerCase("sv");
-
-  const foods = state.foods.filter(f =>
-    f.name.toLocaleLowerCase("sv").includes(q)
-  );
-
-  document.getElementById("foodSearchResults").innerHTML =
-    foods.length ? foods.map(f=>{
-      const i = state.foods.indexOf(f);
-      return `
-        <div class="fooditem">
-          <div style="flex:1;min-width:0">
-            <div class="itemname">${esc(f.name)}</div>
-            <div class="itemsub">${
-              f.unconfirmed ? "Näringsvärden saknas" :
-              `${fmt(f.kcal)} kcal · P ${f.p} g · K ${f.c} g · F ${f.f} g / 100 g`
-            }</div>
-          </div>
-          <button onclick="editFood(${i})">Ändra</button>
-          <button ${f.unconfirmed?"disabled":""}
-            onclick="selectFoodByName('${esc(f.name).replace(/'/g,"&#39;")}')">
-            Välj
-          </button>
-        </div>`;
-    }).join("") : '<div class="empty">Inga träffar.</div>';
+ const q=(document.getElementById("foodSearch").value||"").toLocaleLowerCase("sv");
+ const arr=state.foods.filter(f=>f.name.toLocaleLowerCase("sv").includes(q));
+ document.getElementById("foodSearchResults").innerHTML=arr.length?arr.map(f=>{const i=state.foods.indexOf(f);return `<div class="fooditem"><div><div class="itemname">${esc(f.name)}</div><div class="itemsub">${f.unconfirmed?"Näringsvärden saknas":`${f.kcal} kcal · P ${f.p} g · K ${f.c} g · F ${f.f} g / 100 g`}</div></div><button onclick="editFood(${i})">Ändra</button><button ${f.unconfirmed?"disabled":""} onclick="selectFoodByIndex(${i})">Välj</button></div>`}).join(""):'<div class="empty">Inga träffar.</div>';
 }
-
-function editFood(index){
-  const f = state.foods[index];
-
-  openModal("Redigera livsmedel",`
-    <label class="field">Produktnamn</label>
-    <input id="editFoodName" value="${esc(f.name)}">
-
-    <div class="grid2">
-      <div>
-        <label class="field">Kalorier per 100 g</label>
-        <input id="editFoodKcal" type="number" min="0" step=".1"
-          value="${Number(f.kcal)||0}">
-      </div>
-      <div>
-        <label class="field">Protein (g)</label>
-        <input id="editFoodP" type="number" min="0" step=".1"
-          value="${Number(f.p)||0}">
-      </div>
-      <div>
-        <label class="field">Kolhydrater (g)</label>
-        <input id="editFoodC" type="number" min="0" step=".1"
-          value="${Number(f.c)||0}">
-      </div>
-      <div>
-        <label class="field">Fett (g)</label>
-        <input id="editFoodF" type="number" min="0" step=".1"
-          value="${Number(f.f)||0}">
-      </div>
-    </div>
-
-    <div class="notice">
-      Ändringarna gäller produktens värden för framtida registreringar.
-      Redan registrerade måltider ändras inte.
-    </div>
-
-    <div class="actions">
-      <button class="primary" onclick="saveEditedFood(${index})">
-        Spara produkt
-      </button>
-    </div>
-  `);
+function editFood(i){
+ const f=state.foods[i];if(!f)return;
+ openModal("Redigera livsmedel",`
+ <label class="field">Produktnamn</label><input id="efName" value="${esc(f.name)}">
+ <div class="grid2">
+ <div><label class="field">kcal / 100 g</label><input id="efK" type="number" min="0" step=".1" value="${num(f.kcal)}"></div>
+ <div><label class="field">Protein (g)</label><input id="efP" type="number" min="0" step=".1" value="${num(f.p)}"></div>
+ <div><label class="field">Kolhydrater (g)</label><input id="efC" type="number" min="0" step=".1" value="${num(f.c)}"></div>
+ <div><label class="field">Fett (g)</label><input id="efF" type="number" min="0" step=".1" value="${num(f.f)}"></div></div>
+ <div class="notice">Värdena gäller per 100 g och används för framtida måltider. Tidigare registreringar lämnas oförändrade.</div>
+ <div class="actions"><button class="primary" onclick="saveEditedFood(${i})">Spara produkt</button></div>`);
 }
-
-function saveEditedFood(index){
-  const name = document.getElementById("editFoodName").value.trim();
-  const kcal = Number(document.getElementById("editFoodKcal").value);
-  const p = Number(document.getElementById("editFoodP").value);
-  const c = Number(document.getElementById("editFoodC").value);
-  const f = Number(document.getElementById("editFoodF").value);
-
-  if(!name || [kcal,p,c,f].some(v=>!Number.isFinite(v)||v<0)){
-    alert("Ange ett namn och giltiga näringsvärden.");
-    return;
-  }
-
-  const duplicate = state.foods.some((food,i)=>
-    i!==index && food.name.toLocaleLowerCase("sv")===name.toLocaleLowerCase("sv")
-  );
-
-  if(duplicate && !confirm("En produkt med detta namn finns redan. Vill du ändå spara?"))
-    return;
-
-  state.foods[index] = {
-    ...state.foods[index],
-    name,kcal,p,c,f,
-    unconfirmed:false
-  };
-
-  save();
-  closeModal();
-  document.getElementById("foodSearch").value = name;
-  renderFoodSearch();
+function saveEditedFood(i){
+ const name=document.getElementById("efName").value.trim();
+ const vals=["efK","efP","efC","efF"].map(id=>Number(document.getElementById(id).value));
+ if(!name||vals.some(v=>!Number.isFinite(v)||v<0)){alert("Ange namn och giltiga näringsvärden.");return}
+ if(state.foods.some((f,j)=>j!==i&&f.name.toLocaleLowerCase("sv")===name.toLocaleLowerCase("sv"))&&!confirm("En produkt med samma namn finns redan. Spara ändå?"))return;
+ const oldName=state.foods[i].name;
+ state.foods[i]={...state.foods[i],name,kcal:vals[0],p:vals[1],c:vals[2],f:vals[3],unconfirmed:false};
+ quickMeals.forEach(q=>{if(q.food===oldName)q.food=name});
+ save();closeModal();document.getElementById("foodSearch").value=name;renderFoodSearch();
 }
-function selectFoodByName(name){
- selectedFood=state.foods.find(f=>f.name===name)||null;
- document.getElementById("selectedFoodName").textContent=selectedFood?selectedFood.name:"Välj ett livsmedel.";
- updatePortionPreview();
-}
+function selectFoodByIndex(i){selectedFood=state.foods[i]||null;document.getElementById("selectedFoodName").textContent=selectedFood?selectedFood.name:"Välj ett livsmedel.";updatePortionPreview()}
 function updatePortionPreview(){
  const el=document.getElementById("portionPreview");
  if(!selectedFood){el.textContent="Välj mat för att beräkna näringen.";return}
- const grams=Math.max(0,Number(document.getElementById("grams").value)||0),m=grams/100;
- el.textContent=selectedFood.unconfirmed?"Näringsvärden saknas. Kontrollera förpackningen och lägg in dem först.":`${fmt(selectedFood.kcal*m)} kcal · Protein ${fmt(selectedFood.p*m)} g · Kolhydrater ${fmt(selectedFood.c*m)} g · Fett ${fmt(selectedFood.f*m)} g`;
+ const g=Math.max(0,num(document.getElementById("grams").value)),m=g/100;
+ el.textContent=selectedFood.unconfirmed?"Näringsvärden saknas. Redigera produkten först.":`${fmt(selectedFood.kcal*m)} kcal · Protein ${fmt(selectedFood.p*m)} g · Kolhydrater ${fmt(selectedFood.c*m)} g · Fett ${fmt(selectedFood.f*m)} g`;
 }
-function addSelectedFood(){
- if(!selectedFood){alert("Välj ett livsmedel först.");return}
- if(selectedFood.unconfirmed){alert("Lägg in produktens näringsvärden först.");return}
- const grams=Number(document.getElementById("grams").value);
- if(!grams||grams<=0){alert("Ange en mängd över 0 gram.");return}
- addFood(selectedFood,grams,document.getElementById("meal").value);
- selectedFood=null;
- document.getElementById("selectedFoodName").textContent="Välj ett livsmedel.";
- document.getElementById("portionPreview").textContent="Välj mat för att beräkna näringen.";
-}
+function addSelectedFood(){if(!selectedFood){alert("Välj ett livsmedel först.");return}if(selectedFood.unconfirmed){alert("Lägg in produktens näringsvärden först.");return}const g=num(document.getElementById("grams").value);if(g<=0){alert("Ange en mängd över 0 gram.");return}addFood(selectedFood,g,document.getElementById("meal").value);selectedFood=null;document.getElementById("selectedFoodName").textContent="Välj ett livsmedel.";updatePortionPreview()}
 function openCustomFood(){
- openModal("Skapa livsmedel",`
- <label class="field">Namn</label><input id="cfName" placeholder="Produktens namn">
- <div class="grid2"><div><label class="field">kcal / 100 g</label><input id="cfK" type="number" min="0"></div><div><label class="field">Protein (g)</label><input id="cfP" type="number" min="0" step=".1"></div>
- <div><label class="field">Kolhydrater (g)</label><input id="cfC" type="number" min="0" step=".1"></div><div><label class="field">Fett (g)</label><input id="cfF" type="number" min="0" step=".1"></div></div>
- <div class="actions"><button class="primary" onclick="saveCustomFood()">Spara livsmedel</button></div>`);
+ openModal("Skapa livsmedel",`<label class="field">Namn</label><input id="cfName" placeholder="Produktens namn"><div class="grid2"><div><label class="field">kcal / 100 g</label><input id="cfK" type="number" min="0" step=".1"></div><div><label class="field">Protein (g)</label><input id="cfP" type="number" min="0" step=".1"></div><div><label class="field">Kolhydrater (g)</label><input id="cfC" type="number" min="0" step=".1"></div><div><label class="field">Fett (g)</label><input id="cfF" type="number" min="0" step=".1"></div></div><div class="actions"><button class="primary" onclick="saveCustomFood()">Spara livsmedel</button></div>`);
 }
 function saveCustomFood(){
- const name=document.getElementById("cfName").value.trim();
- const kcal=Number(document.getElementById("cfK").value);
- if(!name||!Number.isFinite(kcal)||kcal<0){alert("Ange namn och giltiga värden.");return}
- const food={name,kcal,p:Number(document.getElementById("cfP").value)||0,c:Number(document.getElementById("cfC").value)||0,f:Number(document.getElementById("cfF").value)||0};
- const idx=state.foods.findIndex(f=>f.name===name);
- if(idx>=0)state.foods[idx]=food;else state.foods.push(food);
- // Allow this custom item to replace the placeholder values for protein powder.
- for(const q of quickMeals){
-  if(q.unconfirmed && name.toLocaleLowerCase("sv").includes("protein")){
-   q.food=name;q.unconfirmed=false;q.label=name;
-  }
- }
- save();closeModal();showPage("food");
- document.getElementById("foodSearch").value=name;renderFoodSearch();selectFoodByName(name);
+ const name=document.getElementById("cfName").value.trim(),vals=["cfK","cfP","cfC","cfF"].map(id=>Number(document.getElementById(id).value||0));
+ if(!name||vals.some(v=>!Number.isFinite(v)||v<0)){alert("Ange namn och giltiga värden.");return}
+ const f={name,kcal:vals[0],p:vals[1],c:vals[2],f:vals[3],unconfirmed:false};
+ const i=state.foods.findIndex(x=>x.name.toLocaleLowerCase("sv")===name.toLocaleLowerCase("sv"));
+ if(i>=0)state.foods[i]=f;else state.foods.push(f);
+ if(name.toLocaleLowerCase("sv").includes("protein")){const q=quickMeals[3];q.food=name;q.label=name;q.unconfirmed=false}
+ save();closeModal();showPage("food");document.getElementById("foodSearch").value=name;renderFoodSearch();
 }
-
 function renderFoodEntries(){
  const arr=entriesToday();
- document.getElementById("foodEntries").innerHTML=arr.length?arr.map(e=>`
- <div class="fooditem"><div><div class="itemname">${esc(e.name)}</div><div class="itemsub">${esc(e.meal||"Måltid")} · ${fmt(e.grams)} g · P ${fmt(e.p)} g</div></div>
- <div style="text-align:right"><strong>${fmt(e.kcal)} kcal</strong><br><button class="danger" style="padding:5px 8px;margin-top:5px" onclick="deleteEntry(${state.entries.indexOf(e)})">Ta bort</button></div></div>`).join(""):'<div class="empty">Dagens mat visas här.</div>';
+ document.getElementById("foodEntries").innerHTML=arr.length?arr.map(e=>`<div class="fooditem"><div><div class="itemname">${esc(e.name)}</div><div class="itemsub">${esc(e.meal||"Måltid")} · ${fmt(e.grams)} g · P ${fmt(e.p)} g</div></div><div><strong>${fmt(e.kcal)} kcal</strong><br><button class="danger" onclick="deleteEntry(${state.entries.indexOf(e)})">Ta bort</button></div></div>`).join(""):'<div class="empty">Dagens mat visas här.</div>';
 }
 
 function saveWeight(){
- const raw=Number(document.getElementById("weightInput").value);
- const date=document.getElementById("weightDate").value||today();
- if(!Number.isFinite(raw)||raw<20||raw>400){alert("Ange en rimlig vikt i kg.");return}
- const existing=state.weights.findIndex(w=>w.date===date);
- if(existing>=0){
-  if(!confirm("Det finns redan en vikt för detta datum. Vill du ersätta den?"))return;
-  state.weights[existing]={...state.weights[existing],kg:raw,date};
- }else state.weights.push({kg:raw,date});
- state.weights.sort((a,b)=>a.date.localeCompare(b.date));
- document.getElementById("weightInput").value="";
- save();
- showPage("weight");
+ const kg=Number(document.getElementById("weightInput").value),date=document.getElementById("weightDate").value||today();
+ if(!Number.isFinite(kg)||kg<20||kg>400){alert("Ange en rimlig vikt i kg.");return}
+ const i=state.weights.findIndex(w=>w.date===date);
+ if(i>=0){if(!confirm("Det finns redan en vikt för datumet. Ersätta den?"))return;state.weights[i]={...state.weights[i],kg,date}}
+ else state.weights.push({kg,date});
+ state.weights.sort((a,b)=>a.date.localeCompare(b.date));document.getElementById("weightInput").value="";save();showPage("weight");
 }
-function deleteWeight(i){
- if(!confirm("Ta bort viktregistreringen?"))return;
- state.weights.splice(i,1);save();
-}
+function deleteWeight(i){if(confirm("Ta bort viktregistreringen?")){state.weights.splice(i,1);save()}}
 function renderWeight(){
- const data=[...state.weights].sort((a,b)=>a.date.localeCompare(b.date));
- const last=data[data.length-1],first=data[0];
- document.getElementById("latestWeight").textContent=last?Number(last.kg).toLocaleString("sv-SE")+" kg":"– kg";
- const change=first&&last?Number(last.kg)-Number(first.kg):null;
- document.getElementById("weightChange").textContent=change===null?"– kg":(change>0?"+":"")+change.toLocaleString("sv-SE",{minimumFractionDigits:1,maximumFractionDigits:1})+" kg";
- const range=document.getElementById("weightRange").value;
- let shown=data;
- if(range!=="all"&&data.length){
-  const cutoff=new Date();cutoff.setDate(cutoff.getDate()-Number(range));
-  const ds=cutoff.toISOString().slice(0,10);
-  shown=data.filter(w=>w.date>=ds);
- }
- drawChart(shown);
- document.getElementById("chartSummary").textContent=shown.length?`${shown.length} registreringar · ${shown[0].date} – ${shown[shown.length-1].date}`:"Registrera din första vikt för att börja följa utvecklingen.";
- document.getElementById("weightHistory").innerHTML=data.length?data.slice().reverse().map(w=>{
-  const i=state.weights.indexOf(w);
-  return `<div class="fooditem"><div><div class="itemname">${Number(w.kg).toLocaleString("sv-SE")} kg</div><div class="itemsub">${esc(w.date)}</div></div><button class="danger" onclick="deleteWeight(${i})">Ta bort</button></div>`;
- }).join(""):'<div class="empty">Ingen vikt registrerad ännu.</div>';
+ const data=[...state.weights].sort((a,b)=>a.date.localeCompare(b.date)),last=data.at(-1),first=data[0];
+ document.getElementById("latestWeight").textContent=last?num(last.kg).toLocaleString("sv-SE")+" kg":"– kg";
+ const change=first&&last?num(last.kg)-num(first.kg):null;
+ document.getElementById("weightChange").textContent=change===null?"– kg":(change>0?"+":"")+change.toLocaleString("sv-SE",{maximumFractionDigits:1})+" kg";
+ const range=document.getElementById("weightRange").value;let shown=data;
+ if(range!=="all"){const cutoff=new Date();cutoff.setDate(cutoff.getDate()-Number(range));const ds=cutoff.getFullYear()+"-"+String(cutoff.getMonth()+1).padStart(2,"0")+"-"+String(cutoff.getDate()).padStart(2,"0");shown=data.filter(w=>w.date>=ds)}
+ drawLineChart("weightChart",shown.map(w=>({date:w.date,value:num(w.kg)})),"kg");
+ document.getElementById("chartSummary").textContent=shown.length?`${shown.length} registreringar · ${shown[0].date} – ${shown.at(-1).date}`:"Registrera din första vikt.";
+ document.getElementById("weightHistory").innerHTML=data.length?data.slice().reverse().map(w=>`<div class="fooditem"><div><strong>${num(w.kg).toLocaleString("sv-SE")} kg</strong><div class="itemsub">${esc(w.date)}</div></div><button class="danger" onclick="deleteWeight(${state.weights.indexOf(w)})">Ta bort</button></div>`).join(""):'<div class="empty">Ingen vikt registrerad ännu.</div>';
 }
-function drawChart(data){
- const canvas=document.getElementById("weightChart");
- const rect=canvas.getBoundingClientRect();
- const dpr=window.devicePixelRatio||1;
- canvas.width=Math.max(300,rect.width*dpr);canvas.height=230*dpr;
- const ctx=canvas.getContext("2d");ctx.scale(dpr,dpr);
- const w=canvas.width/dpr,h=230;
- ctx.clearRect(0,0,w,h);
- if(!data.length){ctx.fillStyle="#a6b6c5";ctx.font="13px sans-serif";ctx.textAlign="center";ctx.fillText("Ingen viktdata ännu",w/2,h/2);return}
- const values=data.map(x=>Number(x.kg));
- let min=Math.min(...values),max=Math.max(...values);
+function drawLineChart(id,data,unit){
+ const canvas=document.getElementById(id),w=Math.max(280,canvas.clientWidth),h=230,dpr=window.devicePixelRatio||1;
+ canvas.width=w*dpr;canvas.height=h*dpr;
+ const ctx=canvas.getContext("2d");ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);
+ if(!data.length){ctx.fillStyle="#a6b6c5";ctx.font="13px sans-serif";ctx.textAlign="center";ctx.fillText("Ingen data ännu",w/2,h/2);return}
+ const vals=data.map(d=>d.value);let min=Math.min(...vals),max=Math.max(...vals);
  if(min===max){min-=1;max+=1}
- const pad={l:38,r:12,t:16,b:28},pw=w-pad.l-pad.r,ph=h-pad.t-pad.b;
- const x=i=>pad.l+(data.length===1?pw/2:i*pw/(data.length-1));
- const y=v=>pad.t+(max-v)/(max-min)*ph;
- ctx.font="11px sans-serif";ctx.textAlign="right";ctx.fillStyle="#a6b6c5";ctx.strokeStyle="#2b4051";ctx.lineWidth=1;
- for(let i=0;i<4;i++){
-  const val=min+(max-min)*i/3,yy=y(val);
-  ctx.beginPath();ctx.moveTo(pad.l,yy);ctx.lineTo(w-pad.r,yy);ctx.stroke();
-  ctx.fillText(val.toLocaleString("sv-SE",{maximumFractionDigits:1}),pad.l-7,yy+4);
- }
+ const pad={l:42,r:12,t:16,b:30},pw=w-pad.l-pad.r,ph=h-pad.t-pad.b;
+ const x=i=>pad.l+(data.length===1?pw/2:i*pw/(data.length-1)),y=v=>pad.t+(max-v)/(max-min)*ph;
+ ctx.font="11px sans-serif";ctx.textAlign="right";ctx.fillStyle="#a6b6c5";ctx.strokeStyle="#2b4051";
+ for(let i=0;i<4;i++){const v=min+(max-min)*i/3,yy=y(v);ctx.beginPath();ctx.moveTo(pad.l,yy);ctx.lineTo(w-pad.r,yy);ctx.stroke();ctx.fillText(v.toLocaleString("sv-SE",{maximumFractionDigits:1}),pad.l-6,yy+4)}
  ctx.strokeStyle="#32d583";ctx.lineWidth=2.5;ctx.beginPath();
- data.forEach((p,i)=>{if(i===0)ctx.moveTo(x(i),y(Number(p.kg)));else ctx.lineTo(x(i),y(Number(p.kg)))});
- ctx.stroke();
- data.forEach((p,i)=>{ctx.beginPath();ctx.arc(x(i),y(Number(p.kg)),3.5,0,Math.PI*2);ctx.fillStyle="#32d583";ctx.fill()});
- ctx.textAlign="left";ctx.fillStyle="#a6b6c5";
- ctx.fillText(data[0].date.slice(5),pad.l,h-8);
- ctx.textAlign="right";ctx.fillText(data[data.length-1].date.slice(5),w-pad.r,h-8);
+ data.forEach((d,i)=>i?ctx.lineTo(x(i),y(d.value)):ctx.moveTo(x(i),y(d.value)));ctx.stroke();
+ data.forEach((d,i)=>{ctx.beginPath();ctx.arc(x(i),y(d.value),3.5,0,Math.PI*2);ctx.fillStyle="#32d583";ctx.fill()});
+ ctx.fillStyle="#a6b6c5";ctx.textAlign="left";ctx.fillText(data[0].date.slice(5),pad.l,h-8);ctx.textAlign="right";ctx.fillText(data.at(-1).date.slice(5),w-pad.r,h-8);
 }
-window.addEventListener("resize",()=>{if(document.getElementById("weight").classList.contains("active"))renderWeight()});
 
 function renderPlans(){
-  document.getElementById("plansList").innerHTML =
-    state.plans.map((p,i)=>`
-      <div class="fooditem">
-        <div style="flex:1;min-width:0">
-          <div class="itemname">${esc(p.name)}</div>
-          <div class="itemsub">${p.exercises.length} övningar</div>
-        </div>
-        <button onclick="selectPlan(${i})">Träna</button>
-        <button onclick="editPlan(${i})">Redigera</button>
-        <button class="danger" onclick="deletePlan(${i})">Ta bort schema</button>
-      </div>
-    `).join("") ||
-    '<div class="empty">Skapa ditt första pass.</div>';
-
-  document.getElementById("workoutHistory").innerHTML =
-    state.logs.length ? state.logs.map((l,i)=>`
-      <div class="fooditem">
-        <div>
-          <div class="itemname">${esc(l.name)}</div>
-          <div class="itemsub">${new Date(l.date).toLocaleString("sv-SE")}</div>
-          <div class="itemsub">${esc(l.notes||"")}</div>
-        </div>
-        <button class="danger" onclick="deleteLog(${i})">Ta bort</button>
-      </div>
-    `).join("") :
-    '<div class="empty">Dina genomförda pass visas här.</div>';
+ document.getElementById("plansList").innerHTML=state.plans.map((p,i)=>`
+ <div class="fooditem"><div><div class="itemname">${esc(p.name)}</div><div class="itemsub">${p.exercises.length} övningar</div></div><button onclick="selectPlan(${i})">Träna</button><button onclick="editPlan(${i})">Redigera</button><button class="danger" onclick="deletePlan(${i})">Ta bort</button></div>`).join("")||'<div class="empty">Skapa ditt första pass.</div>';
+ document.getElementById("workoutHistory").innerHTML=state.logs.length?state.logs.map((l,i)=>`<div class="fooditem"><div><div class="itemname">${esc(l.name)}</div><div class="itemsub">${esc(l.date||"")}</div><div class="itemsub">${esc(l.notes||"")}</div></div><button class="danger" onclick="deleteLog(${i})">Ta bort logg</button></div>`).join(""):'<div class="empty">Dina genomförda pass visas här.</div>';
+ renderTrainingChart();
 }
-function deletePlan(index){
-  const plan = state.plans[index];
-  if(!plan) return;
-
-  if(!confirm(
-    `Vill du ta bort träningsschemat "${plan.name}"? ` +
-    "Tidigare träningshistorik behålls."
-  )){
-    return;
-  }
-
-  state.plans.splice(index,1);
-  save();
-  renderPlans();
-
-  const detail = document.getElementById("workoutDetail");
-  if(detail) detail.innerHTML = "";
+function deletePlan(i){
+ const p=state.plans[i];if(!p)return;
+ if(!confirm(`Ta bort schemat "${p.name}"? Historiken för genomförda pass behålls.`))return;
+ state.plans.splice(i,1);
+ if(selectedPlanIndex===i)selectedPlanIndex=null;
+ else if(selectedPlanIndex!==null&&selectedPlanIndex>i)selectedPlanIndex--;
+ save();
+ document.getElementById("workoutDetail").innerHTML='<div class="empty">Välj ett pass i listan.</div>';
 }
-  if(!confirm(`Vill du ta bort träningspasset "${plan.name}" från schemat? Tidigare träningshistorik behålls.`)){
-    return;
-  }
-
-  state.plans.splice(index, 1);
-  save();
-
-  if(typeof renderPlans === "function") renderPlans();
+function editPlan(i){
+ const p=state.plans[i];if(!p)return;
+ const rows=p.exercises.map((e,j)=>`<div class="card" style="padding:10px"><label class="field">Övning</label><input id="exName${j}" value="${esc(e[0])}"><div class="grid2"><div><label class="field">Antal set</label><input id="exSets${j}" type="number" min="1" max="30" value="${num(e[1])||3}"></div><div><label class="field">Repsmål</label><input id="exReps${j}" value="${esc(e[2]||"8–12")}"></div></div><button class="danger" onclick="removePlanExercise(${i},${j})">Ta bort övning</button></div>`).join("");
+ openModal("Redigera träningsschema",`<label class="field">Namn på passet</label><input id="editPlanName" value="${esc(p.name)}"><div class="section">Övningar</div><div id="exerciseRows">${rows}</div><div class="actions"><button onclick="addPlanExercise(${i})">+ Lägg till övning</button></div><div class="actions"><button class="primary" onclick="saveEditedPlan(${i})">Spara ändringar</button></div><div class="notice">Redigera schemat innan du startar passet. Historiska pass sparas separat.</div>`);
 }
-function editPlan(index){
-  const plan = state.plans[index];
-function addPlanExercise(index){
-  const plan = state.plans[index];
-
-  if(!plan || !Array.isArray(plan.exercises)){
-    alert("Kunde inte hitta träningspasset.");
-    return;
-  }
-
-  const name = prompt("Vad ska övningen heta?");
-  if(name === null) return;
-
-  const exerciseName = name.trim();
-  if(!exerciseName){
-    alert("Ange ett namn på övningen.");
-    return;
-  }
-
-  const setsInput = prompt("Hur många set?", "3");
-  if(setsInput === null) return;
-
-  const sets = Number(setsInput);
-  if(!Number.isInteger(sets) || sets < 1 || sets > 30){
-    alert("Ange mellan 1 och 30 set.");
-    return;
-  }
-
-  const repsInput = prompt("Hur många reps per set?", "8–12");
-  if(repsInput === null) return;
-
-  const reps = repsInput.trim();
-  if(!reps){
-    alert("Ange ett repetitionsmål.");
-    return;
-  }
-
-  plan.exercises.push([exerciseName, sets, reps]);
-  save();
-  editPlan(index);
+function addPlanExercise(i){
+ if(!state.plans[i])return;
+ // Save current editor fields first so adding an exercise doesn't discard unsaved edits.
+ const nameEl=document.getElementById("editPlanName");
+ if(nameEl&&!saveEditedPlanFields(i,false))return;
+ state.plans[i].exercises.push(["Ny övning",3,"8–12"]);
+ editPlan(i);
 }
-
-function removePlanExercise(index, exerciseIndex){
-  const plan = state.plans[index];
-
-  if(!plan || !Array.isArray(plan.exercises) ||
-     !plan.exercises[exerciseIndex]){
-    alert("Kunde inte hitta övningen.");
-    return;
-  }
-
-  if(plan.exercises.length <= 1){
-    alert("Ett träningspass måste ha minst en övning.");
-    return;
-  }
-
-  const name = plan.exercises[exerciseIndex][0];
-
-  if(!confirm(`Ta bort "${name}" från träningspasset?`)){
-    return;
-  }
-
-  plan.exercises.splice(exerciseIndex, 1);
-  save();
-  editPlan(index);
+function saveEditedPlanFields(i,showAlert=true){
+ const p=state.plans[i],name=document.getElementById("editPlanName")?.value.trim();
+ if(!p||!name){if(showAlert)alert("Ange ett namn på passet.");return false}
+ const exercises=[];
+ for(let j=0;j<p.exercises.length;j++){
+  const n=document.getElementById("exName"+j),s=document.getElementById("exSets"+j),r=document.getElementById("exReps"+j);
+  if(!n||!s||!r){if(showAlert)alert("Kunde inte läsa övningarna.");return false}
+  const en=n.value.trim(),sets=Number(s.value),reps=r.value.trim();
+  if(!en||!Number.isInteger(sets)||sets<1||sets>30||!reps){if(showAlert)alert("Kontrollera namn, antal set och repsmål.");return false}
+  exercises.push([en,sets,reps]);
+ }
+ if(!exercises.length){if(showAlert)alert("Lägg till minst en övning.");return false}
+ p.name=name;p.exercises=exercises;return true;
 }
-  const exerciseRows = plan.exercises.map((ex,i)=>`
-    <div class="card" style="padding:10px">
-      <label class="field">Övningsnamn</label>
-      <input id="editExName${i}" value="${esc(ex[0])}">
-      <div class="grid2">
-        <div>
-          <label class="field">Antal set</label>
-          <input id="editExSets${i}" type="number"
-                 min="1" max="30" value="${Number(ex[1])||3}">
-        </div>
-        <div>
-          <label class="field">Reps per set</label>
-          <input id="editExReps${i}" value="${esc(ex[2]||'8–12')}">
-        </div>
-      </div>
-      <button class="danger" onclick="removePlanExercise(${index},${i})">
-        Ta bort övning
-      </button>
-    </div>
-  `).join("");
-
-  openModal("Redigera träningspass",`
-    <label class="field">Passets namn</label>
-    <input id="editPlanName" value="${esc(plan.name)}">
-    <div class="section">Övningar</div>
-    <div id="editExerciseRows">${exerciseRows}</div>
-    <div class="actions">
-      <button onclick="addPlanExercise(${index})">+ Lägg till övning</button>
-    </div>
-    <div class="actions">
-      <button class="primary" onclick="saveEditedPlan(${index})">
-        Spara ändringar
-      </button>
-    </div>
-  `);
+function saveEditedPlan(i){
+ if(!saveEditedPlanFields(i))return;
+ save();closeModal();selectPlan(i);
 }
-
-function addPlanExercise(index){
-  const plan = state.plans[index];
-  plan.exercises.push(["Ny övning",3,"8–12"]);
-  editPlan(index);
-}
-
-function removePlanExercise(index, exerciseIndex){
-  if(!confirm("Vill du ta bort övningen från träningsschemat?")) return;
-  state.plans[index].exercises.splice(exerciseIndex,1);
-  save();
-  editPlan(index);
-}
-
-function saveEditedPlan(index){
-  const name = document.getElementById("editPlanName").value.trim();
-  if(!name){
-    alert("Ange ett namn på träningspasset.");
-    return;
-  }
-
-  const oldExercises = state.plans[index].exercises;
-  const exercises = [];
-
-  for(let i=0;i<oldExercises.length;i++){
-    const nameEl = document.getElementById("editExName"+i);
-    const setsEl = document.getElementById("editExSets"+i);
-    const repsEl = document.getElementById("editExReps"+i);
-
-    if(!nameEl || !setsEl || !repsEl) continue;
-
-    const exerciseName = nameEl.value.trim();
-    const sets = Number(setsEl.value);
-    const reps = repsEl.value.trim();
-
-    if(!exerciseName || !Number.isInteger(sets) || sets<1 || sets>30 || !reps){
-      alert("Kontrollera övningsnamn, set och reps.");
-      return;
-    }
-
-    exercises.push([exerciseName,sets,reps]);
-  }
-
-  if(!exercises.length){
-    alert("Ett träningspass måste ha minst en övning.");
-    return;
-  }
-
-  state.plans[index] = {...state.plans[index],name,exercises};
-  save();
-  closeModal();
-  selectPlan(index);
-}
-function selectPlan(i){
-  selectedPlanIndex = i;
-  const p = state.plans[i];
-
-  document.getElementById("workoutDetail").innerHTML = `
-    <h3>${esc(p.name)}</h3>
-    <div class="small muted">
-      Fyll i vikt och reps separat för varje set.
-    </div>
-
-    ${p.exercises.map((e,j)=>`
-      <div class="card" style="padding:12px;margin-top:12px">
-        <div class="row">
-          <strong>${esc(e[0])}</strong>
-          <button onclick="renameExercise(${i},${j})">Ändra namn</button>
-        </div>
-
-        <div class="small muted" style="margin:8px 0">
-          Mål: ${Number(e[1])||3} set · ${esc(e[2]||"8–12")} reps
-        </div>
-
-        <div class="grid2" style="grid-template-columns:45px 1fr 1fr 48px">
-          <span class="small muted">Set</span>
-          <span class="small muted">Vikt kg</span>
-          <span class="small muted">Reps</span>
-          <span class="small muted">Klar</span>
-        </div>
-
-        ${Array.from({length:Math.max(1,Math.min(30,Number(e[1])||3))},(_,k)=>`
-          <div class="grid2"
-               style="grid-template-columns:45px 1fr 1fr 48px;margin-top:8px;align-items:center">
-            <strong>${k+1}</strong>
-            <input id="setWeight_${j}_${k}" type="number"
-              min="0" step="0.5" inputmode="decimal"
-              placeholder="kg">
-            <input id="setReps_${j}_${k}" type="number"
-              min="0" max="500" inputmode="numeric"
-              placeholder="reps">
-            <input id="setDone_${j}_${k}" type="checkbox"
-              aria-label="Set ${k+1} klart" style="width:22px;justify-self:center">
-          </div>
-        `).join("")}
-
-        <div class="actions">
-          <button onclick="changeExerciseSets(${i},${j})">
-            Ändra antal set
-          </button>
-        </div>
-      </div>
-    `).join("")}
-
-    <label class="field">Anteckningar för passet</label>
-    <textarea id="workoutNotes" rows="3"
-      placeholder="Ex. bra energi, öka vikten nästa gång"></textarea>
-
-    <div class="actions">
-      <button class="primary" onclick="finishWorkout(${i})">
-        Spara träningspass
-      </button>
-    </div>
-  `;
-}
-
-function renameExercise(planIndex, exerciseIndex){
-  const exercise = state.plans[planIndex].exercises[exerciseIndex];
-  const name = prompt("Nytt namn på övningen:", exercise[0]);
-  if(name === null) return;
-
-  const trimmed = name.trim();
-  if(!trimmed){
-    alert("Övningsnamnet kan inte vara tomt.");
-    return;
-  }
-
-  exercise[0] = trimmed;
-  save();
-  selectPlan(planIndex);
-}
-
-function changeExerciseSets(planIndex, exerciseIndex){
-  const exercise = state.plans[planIndex].exercises[exerciseIndex];
-  const value = prompt("Hur många set vill du göra?", exercise[1]);
-  if(value === null) return;
-
-  const sets = Number(value);
-  if(!Number.isInteger(sets) || sets < 1 || sets > 30){
-    alert("Ange ett heltal mellan 1 och 30.");
-    return;
-  }
-
-  exercise[1] = sets;
-  save();
-  selectPlan(planIndex);
-}
-function finishWorkout(i){
-  const p = state.plans[i];
-
-  const details = p.exercises.map((e,j)=>{
-    const count = Math.max(1,Math.min(30,Number(e[1])||3));
-    const sets = [];
-
-    for(let k=0;k<count;k++){
-      const weight = document.getElementById(`setWeight_${j}_${k}`).value;
-      const reps = document.getElementById(`setReps_${j}_${k}`).value;
-      const done = document.getElementById(`setDone_${j}_${k}`).checked;
-
-      sets.push({
-        set:k+1,
-        weight:weight === "" ? "" : Number(weight),
-        reps:reps === "" ? "" : Number(reps),
-        done
-      });
-    }
-
-    return {
-      name:e[0],
-      targetSets:count,
-      targetReps:e[2],
-      sets,
-      done:sets.every(s=>s.done)
-    };
-  });
-
-  state.logs.unshift({
-    name:p.name,
-    date:new Date().toISOString(),
-    details,
-    notes:document.getElementById("workoutNotes").value
-  });
-
-  save();
-  alert("Träningspasset har sparats med separata set.");
+function removePlanExercise(i,j){
+ if(!state.plans[i])return;
+ if(!saveEditedPlanFields(i))return;
+ if(!confirm(`Ta bort "${state.plans[i].exercises[j][0]}" från schemat?`))return;
+ state.plans[i].exercises.splice(j,1);
+ if(!state.plans[i].exercises.length){alert("Schemat saknar nu övningar. Lägg till en ny övning innan du sparar.");state.plans[i].exercises.push(["Ny övning",3,"8–12"])}
+ editPlan(i);
 }
 function openNewPlan(){
- openModal("Skapa träningspass",`<label class="field">Namn</label><input id="planName" placeholder="Ex. Överkropp"><label class="field">Övningar – en per rad</label><textarea id="planExercises" rows="6" placeholder="Bröstpress&#10;Rodd&#10;Sidolyft"></textarea><div class="actions"><button class="primary" onclick="savePlan()">Skapa pass</button></div>`);
+ openModal("Skapa träningsschema",`<label class="field">Namn på passet</label><input id="newPlanName" placeholder="Ex. Överkropp"><label class="field">Övningar, en per rad</label><textarea id="newPlanExercises" rows="6" placeholder="Bröstpress&#10;Rodd&#10;Sidolyft"></textarea><div class="notice">Du kan ställa in set och repsmål för varje övning efter att passet skapats.</div><div class="actions"><button class="primary" onclick="savePlan()">Skapa pass</button></div>`);
 }
 function savePlan(){
- const name=document.getElementById("planName").value.trim();
- const ex=document.getElementById("planExercises").value.split(/\n/).map(x=>x.trim()).filter(Boolean);
- if(!name||!ex.length){alert("Ange namn och minst en övning.");return}
- state.plans.push({name,exercises:ex.map(x=>[x,3,"8–12"])});
- save();closeModal();selectPlan(state.plans.length-1);
+ const name=document.getElementById("newPlanName").value.trim(),lines=document.getElementById("newPlanExercises").value.split(/\n/).map(x=>x.trim()).filter(Boolean);
+ if(!name||!lines.length){alert("Ange namn och minst en övning.");return}
+ state.plans.push({name,exercises:lines.map(x=>[x,3,"8–12"])});
+ save();closeModal();editPlan(state.plans.length-1);
 }
-function deleteLog(i){if(confirm("Ta bort passet?")){state.logs.splice(i,1);save()}}
+function selectPlan(i){
+ const p=state.plans[i];if(!p)return;selectedPlanIndex=i;
+ document.getElementById("workoutDetail").innerHTML=`<h3>${esc(p.name)}</h3><div class="small muted">Fyll i varje set och markera när setet är klart.</div>
+ ${p.exercises.map((e,j)=>`<div class="card" style="padding:12px;margin-top:12px"><strong>${esc(e[0])}</strong><div class="itemsub">Mål: ${num(e[1])||3} set · ${esc(e[2]||"8–12")} reps</div><div class="setrow small muted"><span>Set</span><span>Vikt kg</span><span>Reps</span><span>Klar</span></div>
+ ${Array.from({length:Math.max(1,Math.min(30,num(e[1])||3))},(_,k)=>`<div class="setrow"><strong>${k+1}</strong><input id="sw_${j}_${k}" type="number" min="0" step=".5" placeholder="kg"><input id="sr_${j}_${k}" type="number" min="0" placeholder="reps"><input id="sd_${j}_${k}" type="checkbox" aria-label="Set ${k+1} klart"></div>`).join("")}</div>`).join("")}
+ <label class="field">Anteckningar</label><textarea id="workoutNotes" rows="3" placeholder="Ex. energi, teknik, vad du vill förbättra"></textarea>
+ <div class="actions"><button class="primary" onclick="finishWorkout(${i})">Spara genomfört pass</button></div>`;
+}
+function finishWorkout(i){
+ const p=state.plans[i];if(!p)return;
+ const details=p.exercises.map((e,j)=>{
+  const sets=Array.from({length:Math.max(1,Math.min(30,num(e[1])||3))},(_,k)=>{
+   const w=document.getElementById(`sw_${j}_${k}`)?.value??"",r=document.getElementById(`sr_${j}_${k}`)?.value??"",d=document.getElementById(`sd_${j}_${k}`)?.checked??false;
+   return{set:k+1,weight:w===""?"":Number(w),reps:r===""?"":Number(r),done:d};
+  });
+  return{name:e[0],targetSets:num(e[1])||3,targetReps:e[2],sets,done:sets.every(s=>s.done)};
+ });
+ state.logs.unshift({name:p.name,date:new Date().toISOString(),details,notes:document.getElementById("workoutNotes")?.value||""});
+ save();alert("Träningspasset har sparats i historiken.");
+}
+function deleteLog(i){if(confirm("Ta bort denna träningsregistrering?")){state.logs.splice(i,1);save()}}
+function dateOfLog(log){
+ const raw=String(log.date||"");
+ if(/^\d{4}-\d{2}-\d{2}$/.test(raw))return raw;
+ const d=new Date(raw);if(Number.isNaN(d.getTime()))return null;
+ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+}
+function weekStart(dateString){
+ const d=new Date(dateString+"T12:00:00");
+ const day=(d.getDay()+6)%7;d.setDate(d.getDate()-day);
+ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+}
+function addDays(dateString,n){
+ const d=new Date(dateString+"T12:00:00");d.setDate(d.getDate()+n);
+ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+}
+function renderTrainingChart(){
+ const count=Math.max(1,Number(document.getElementById("trainingRange")?.value)||8);
+ const current=weekStart(today()),starts=[];
+ for(let i=count-1;i>=0;i--)starts.push(addDays(current,-7*i));
+ const counts=Object.fromEntries(starts.map(d=>[d,0]));
+ for(const log of state.logs){const date=dateOfLog(log);if(!date)continue;const start=weekStart(date);if(start in counts)counts[start]++}
+ const max=Math.max(3,...Object.values(counts));
+ const canvas=document.getElementById("trainingChart"),w=Math.max(280,canvas.clientWidth),h=230,dpr=window.devicePixelRatio||1;
+ canvas.width=w*dpr;canvas.height=h*dpr;
+ const ctx=canvas.getContext("2d");ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);
+ const pad={l:28,r:8,t:15,b:38},pw=w-pad.l-pad.r,ph=h-pad.t-pad.b;
+ ctx.font="11px sans-serif";ctx.textAlign="right";ctx.fillStyle="#a6b6c5";ctx.strokeStyle="#2b4051";
+ for(let v=0;v<=max;v++){const y=pad.t+ph-v/max*ph;ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(w-pad.r,y);ctx.stroke();if(v===0||v===max||v%2===0)ctx.fillText(String(v),pad.l-6,y+4)}
+ const slot=pw/starts.length,bw=Math.max(3,slot*.58);
+ starts.forEach((s,i)=>{
+  const n=counts[s],x=pad.l+i*slot+(slot-bw)/2,y=pad.t+ph-n/max*ph;
+  ctx.fillStyle="#32d583";ctx.fillRect(x,y,bw,Math.max(0,pad.t+ph-y));
+  if(n>0){ctx.fillStyle="#f2f6fa";ctx.textAlign="center";ctx.fillText(String(n),x+bw/2,y-5)}
+  if(starts.length<=12||i%2===0){ctx.fillStyle="#a6b6c5";ctx.textAlign="center";ctx.fillText(s.slice(5),x+bw/2,h-19)}
+ });
+ const total=Object.values(counts).reduce((a,b)=>a+b,0);
+ document.getElementById("trainingChartSummary").textContent=`${total} registrerade pass under de senaste ${count} veckorna. Veckorna börjar på måndagar.`;
+}
 
 function saveGoals(){
- state.goals={kcal:Number(document.getElementById("goalKcal").value)||3200,p:Number(document.getElementById("goalP").value)||200,c:Number(document.getElementById("goalC").value)||400,f:Number(document.getElementById("goalF").value)||90};
+ state.goals={kcal:num(document.getElementById("goalKcal").value)||3200,p:num(document.getElementById("goalP").value)||200,c:num(document.getElementById("goalC").value)||400,f:num(document.getElementById("goalF").value)||90};
  save();alert("Målen är sparade.");
 }
 function exportData(){
- const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});
- const url=URL.createObjectURL(blob),a=document.createElement("a");
- a.href=url;a.download="formlog-backup-"+today()+".json";a.click();
- setTimeout(()=>URL.revokeObjectURL(url),1000);
+ const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");
+ a.href=url;a.download="formlog-backup-"+today()+".json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 function importData(event){
- const file=event.target.files&&event.target.files[0];if(!file)return;
- if(!confirm("Import ersätter nuvarande data. Exportera en backup först. Fortsätta?")){event.target.value="";return}
+ const file=event.target.files?.[0];if(!file)return;
+ if(!confirm("Import ersätter nuvarande data. Har du exporterat en backup? Fortsätta?")){event.target.value="";return}
  const reader=new FileReader();
  reader.onload=()=>{
   try{
    const incoming=JSON.parse(reader.result);
-   if(!incoming||!Array.isArray(incoming.entries)||!Array.isArray(incoming.foods))throw new Error("Ogiltig backup");
-   state={...freshState(),...incoming};
-   state.goals={...freshState().goals,...(incoming.goals||{})};
-   localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
-   renderAll();alert("Backup importerad.");
-  }catch(e){alert("Kunde inte läsa backupfilen. Inga importerade ändringar har sparats.");}
-  event.target.value="";
+   if(!incoming||!Array.isArray(incoming.entries)||!Array.isArray(incoming.foods))throw Error("Ogiltig backup");
+   if(!confirm("Sista kontrollen: ersätta nuvarande data med backupens data?"))return;
+   state={...freshState(),...incoming};state.goals={...freshState().goals,...(incoming.goals||{})};
+   for(const k of ["foods","entries","plans","logs","weights"])if(!Array.isArray(state[k]))state[k]=[];
+   localStorage.setItem(STORAGE_KEY,JSON.stringify(state));renderAll();alert("Backup importerad.");
+  }catch(e){alert("Kunde inte importera backupfilen. Kontrollera att det är en FormLog-backup.")}
+  finally{event.target.value=""}
  };
  reader.readAsText(file);
 }
-function openModal(title,body){
- document.getElementById("modalTitle").textContent=title;
- document.getElementById("modalBody").innerHTML=body;
- document.getElementById("modal").style.display="block";
-}
+function openModal(title,body){document.getElementById("modalTitle").textContent=title;document.getElementById("modalBody").innerHTML=body;document.getElementById("modal").style.display="block"}
 function closeModal(){document.getElementById("modal").style.display="none"}
-
 function showPage(id){
  document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===id));
  document.querySelectorAll(".tabs button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));
  if(id==="food")renderFoodSearch();
  if(id==="weight")renderWeight();
- if(id==="training")renderPlans();
- if(id==="settings"){
-  document.getElementById("goalKcal").value=state.goals.kcal;
-  document.getElementById("goalP").value=state.goals.p;
-  document.getElementById("goalC").value=state.goals.c;
-  document.getElementById("goalF").value=state.goals.f;
- }
+ if(id==="training"){renderPlans();renderTrainingChart()}
+ if(id==="settings"){document.getElementById("goalKcal").value=state.goals.kcal;document.getElementById("goalP").value=state.goals.p;document.getElementById("goalC").value=state.goals.c;document.getElementById("goalF").value=state.goals.f}
  window.scrollTo(0,0);
 }
-function renderAll(){
- renderDashboard();renderFoodEntries();renderPlans();renderWeight();
-}
+function renderAll(){renderDashboard();renderFoodEntries();renderPlans();renderWeight()}
 document.getElementById("todayLabel").textContent=new Date().toLocaleDateString("sv-SE",{weekday:"long",day:"numeric",month:"long"});
 document.getElementById("weightDate").value=today();
 loadState();
 renderAll();
+window.addEventListener("resize",()=>{if(document.getElementById("weight").classList.contains("active"))renderWeight();if(document.getElementById("training").classList.contains("active"))renderTrainingChart()});
 </script>
 </body>
-</html>	
+</html>
