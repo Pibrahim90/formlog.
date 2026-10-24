@@ -70,6 +70,15 @@ canvas{display:block;width:100%;height:230px}
       <div><div class="muted small">Kalorier idag</div><div class="big"><span id="homeKcal">0</span> <span class="small">kcal</span></div></div>
       <div style="text-align:right"><div class="muted small">Dagsmål</div><strong id="homeGoal">3200 kcal</strong></div>
     </div>
+    <div class="card">
+  <div class="row">
+    <div>
+      <h3>Ditt dagliga kalorimål</h3>
+      <div class="small muted">Nuvarande mål: <span id="editableGoalLabel">3 000 kcal</span></div>
+    </div>
+    <button onclick="editDailyGoal()">Ändra mål</button>
+  </div>
+</div>
     <div class="track"><div class="fill" id="calFill"></div></div>
     <div class="row small muted"><span id="remaining"></span><span id="percent"></span></div>
   </div>
@@ -222,11 +231,85 @@ function renderDashboard(){
  document.getElementById("homeWeightDate").textContent=last?last.date:"Ingen vikt registrerad";
  document.getElementById("nextWorkout").innerHTML=state.plans.length?`<strong>${esc(state.plans[0].name)}</strong><div class="itemsub">${state.plans[0].exercises.length} övningar</div><button onclick="showPage('training')">Visa pass</button>`:'<div class="empty">Skapa ditt första pass under Träning.</div>';
 }
-function renderQuickMeals(){
- document.getElementById("quickMeals").innerHTML=quickMeals.map((q,i)=>{
-  const f=state.foods.find(x=>x.name===q.food),unknown=!f||f.unconfirmed||q.unconfirmed;
-  return `<div class="quick"><div class="emoji">${q.emoji}</div><div class="itemname">${esc(q.label)}</div><div class="itemsub">${unknown?"Näringsvärden saknas":fmt(f.kcal*q.grams/100)+" kcal · "+q.grams+" g"}</div><button class="primary" ${unknown?"disabled":""} onclick="addQuickMeal(${i})">${unknown?"Lägg till värden först":"+ Lägg till"}</button></div>`;
- }).join("");
+function renderQuickMeals() {
+  document.getElementById("quickMeals").innerHTML = quickMeals.map((q, i) => {
+    const food = state.foods.find(f => f.name === q.food);
+    const unknown = !food || food.unconfirmed;
+    const kcal = food ? Number(food.kcal) * q.grams / 100 : 0;
+
+    return `
+      <div class="quick">
+        <div class="emoji">${esc(q.emoji || "🍽️")}</div>
+        <div class="itemname">${esc(q.label)}</div>
+        <div class="itemsub">
+          ${q.grams} g · ${unknown ? "Kontrollera näringsvärden" : fmt(kcal) + " kcal"}
+        </div>
+        <button class="primary" ${unknown ? "disabled" : ""}
+          onclick="addQuickMeal(${i})">+ Lägg till</button>
+        <button onclick="editQuickMeal(${i})">Redigera snabbval</button>
+      </div>`;
+  }).join("");
+}
+
+function editQuickMeal(index) {
+  const q = quickMeals[index];
+  if (!q) return;
+
+  const foodOptions = state.foods.map((f, i) =>
+    `<option value="${i}" ${f.name === q.food ? "selected" : ""}>
+      ${esc(f.name)}
+    </option>`
+  ).join("");
+
+  openModal("Redigera snabbval", `
+    <label class="field">Namn på kortet</label>
+    <input id="quickLabel" value="${esc(q.label)}">
+
+    <label class="field">Livsmedel</label>
+    <select id="quickFood">${foodOptions}</select>
+
+    <label class="field">Portionsstorlek (gram)</label>
+    <input id="quickGrams" type="number" min="1" max="5000"
+      value="${Number(q.grams) || 100}">
+
+    <label class="field">Måltid</label>
+    <select id="quickMeal">
+      ${["Frukost","Lunch","Middag","Mellanmål"].map(m =>
+        `<option ${q.meal === m ? "selected" : ""}>${m}</option>`
+      ).join("")}
+    </select>
+
+    <div class="actions">
+      <button class="primary" onclick="saveQuickMeal(${index})">
+        Spara snabbval
+      </button>
+    </div>
+  `);
+}
+
+function saveQuickMeal(index) {
+  const label = document.getElementById("quickLabel").value.trim();
+  const foodIndex = Number(document.getElementById("quickFood").value);
+  const grams = Number(document.getElementById("quickGrams").value);
+  const meal = document.getElementById("quickMeal").value;
+  const food = state.foods[foodIndex];
+
+  if (!label || !food || !Number.isFinite(grams) || grams <= 0 || grams > 5000) {
+    alert("Kontrollera namn, livsmedel och portionsstorlek.");
+    return;
+  }
+
+  quickMeals[index] = {
+    ...quickMeals[index],
+    label,
+    food: food.name,
+    grams,
+    meal,
+    unconfirmed: !!food.unconfirmed
+  };
+
+  save();
+  closeModal();
 }
 function addQuickMeal(i){const q=quickMeals[i],f=state.foods.find(x=>x.name===q.food);if(!f||f.unconfirmed){alert("Lägg in näringsvärdena först.");return}addFood(f,q.grams,q.meal)}
 function addFood(f,grams,meal){const m=grams/100;state.entries.push({name:f.name,grams,meal,date:today(),kcal:f.kcal*m,p:f.p*m,c:f.c*m,f:f.f*m});save()}
@@ -446,6 +529,25 @@ function renderTrainingChart(){
 function saveGoals(){
  state.goals={kcal:num(document.getElementById("goalKcal").value)||3200,p:num(document.getElementById("goalP").value)||200,c:num(document.getElementById("goalC").value)||400,f:num(document.getElementById("goalF").value)||90};
  save();alert("Målen är sparade.");
+}
+  function editDailyGoal() {
+  const current = Number(state.goals.kcal) || 3000;
+  const answer = prompt("Ditt dagliga kalorimål (kcal):", current);
+
+  if (answer === null) return;
+
+  const kcal = Number(answer);
+
+  if (!Number.isFinite(kcal) || kcal < 500 || kcal > 10000) {
+    alert("Ange ett kalorimål mellan 500 och 10 000 kcal.");
+    return;
+  }
+
+  state.goals.kcal = Math.round(kcal);
+  save();
+
+  const label = document.getElementById("editableGoalLabel");
+  if (label) label.textContent = state.goals.kcal.toLocaleString("sv-SE") + " kcal";
 }
 function exportData(){
  const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");
