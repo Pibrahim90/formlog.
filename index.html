@@ -678,16 +678,137 @@ function saveEditedPlan(index){
   selectPlan(index);
 }
 function selectPlan(i){
- selectedPlanIndex=i;const p=state.plans[i];
- document.getElementById("workoutDetail").innerHTML=`<h3>${esc(p.name)}</h3><div class="small muted">Fyll i vikter och reps och markera övningar som klara.</div>
- ${p.exercises.map((e,j)=>`<div class="fooditem"><div style="flex:1"><div class="itemname">${esc(e[0])}</div><div class="itemsub">${e[1]} set · ${esc(e[2])} reps</div><div class="grid2" style="margin-top:7px"><input id="exw${j}" type="number" placeholder="Vikt kg"><input id="exr${j}" placeholder="Reps"></div></div><input type="checkbox" id="exd${j}" style="width:20px"></div>`).join("")}
- <label class="field">Anteckning</label><textarea id="workoutNotes" rows="2"></textarea><div class="actions"><button class="primary" onclick="finishWorkout(${i})">Spara pass</button></div>`;
+  selectedPlanIndex = i;
+  const p = state.plans[i];
+
+  document.getElementById("workoutDetail").innerHTML = `
+    <h3>${esc(p.name)}</h3>
+    <div class="small muted">
+      Fyll i vikt och reps separat för varje set.
+    </div>
+
+    ${p.exercises.map((e,j)=>`
+      <div class="card" style="padding:12px;margin-top:12px">
+        <div class="row">
+          <strong>${esc(e[0])}</strong>
+          <button onclick="renameExercise(${i},${j})">Ändra namn</button>
+        </div>
+
+        <div class="small muted" style="margin:8px 0">
+          Mål: ${Number(e[1])||3} set · ${esc(e[2]||"8–12")} reps
+        </div>
+
+        <div class="grid2" style="grid-template-columns:45px 1fr 1fr 48px">
+          <span class="small muted">Set</span>
+          <span class="small muted">Vikt kg</span>
+          <span class="small muted">Reps</span>
+          <span class="small muted">Klar</span>
+        </div>
+
+        ${Array.from({length:Math.max(1,Math.min(30,Number(e[1])||3))},(_,k)=>`
+          <div class="grid2"
+               style="grid-template-columns:45px 1fr 1fr 48px;margin-top:8px;align-items:center">
+            <strong>${k+1}</strong>
+            <input id="setWeight_${j}_${k}" type="number"
+              min="0" step="0.5" inputmode="decimal"
+              placeholder="kg">
+            <input id="setReps_${j}_${k}" type="number"
+              min="0" max="500" inputmode="numeric"
+              placeholder="reps">
+            <input id="setDone_${j}_${k}" type="checkbox"
+              aria-label="Set ${k+1} klart" style="width:22px;justify-self:center">
+          </div>
+        `).join("")}
+
+        <div class="actions">
+          <button onclick="changeExerciseSets(${i},${j})">
+            Ändra antal set
+          </button>
+        </div>
+      </div>
+    `).join("")}
+
+    <label class="field">Anteckningar för passet</label>
+    <textarea id="workoutNotes" rows="3"
+      placeholder="Ex. bra energi, öka vikten nästa gång"></textarea>
+
+    <div class="actions">
+      <button class="primary" onclick="finishWorkout(${i})">
+        Spara träningspass
+      </button>
+    </div>
+  `;
+}
+
+function renameExercise(planIndex, exerciseIndex){
+  const exercise = state.plans[planIndex].exercises[exerciseIndex];
+  const name = prompt("Nytt namn på övningen:", exercise[0]);
+  if(name === null) return;
+
+  const trimmed = name.trim();
+  if(!trimmed){
+    alert("Övningsnamnet kan inte vara tomt.");
+    return;
+  }
+
+  exercise[0] = trimmed;
+  save();
+  selectPlan(planIndex);
+}
+
+function changeExerciseSets(planIndex, exerciseIndex){
+  const exercise = state.plans[planIndex].exercises[exerciseIndex];
+  const value = prompt("Hur många set vill du göra?", exercise[1]);
+  if(value === null) return;
+
+  const sets = Number(value);
+  if(!Number.isInteger(sets) || sets < 1 || sets > 30){
+    alert("Ange ett heltal mellan 1 och 30.");
+    return;
+  }
+
+  exercise[1] = sets;
+  save();
+  selectPlan(planIndex);
 }
 function finishWorkout(i){
- const p=state.plans[i];
- const details=p.exercises.map((e,j)=>({name:e[0],sets:e[1],target:e[2],weight:document.getElementById("exw"+j).value||"",reps:document.getElementById("exr"+j).value||"",done:document.getElementById("exd"+j).checked}));
- state.logs.unshift({name:p.name,date:new Date().toISOString(),details,notes:document.getElementById("workoutNotes").value});
- save();alert("Träningspasset har sparats.");
+  const p = state.plans[i];
+
+  const details = p.exercises.map((e,j)=>{
+    const count = Math.max(1,Math.min(30,Number(e[1])||3));
+    const sets = [];
+
+    for(let k=0;k<count;k++){
+      const weight = document.getElementById(`setWeight_${j}_${k}`).value;
+      const reps = document.getElementById(`setReps_${j}_${k}`).value;
+      const done = document.getElementById(`setDone_${j}_${k}`).checked;
+
+      sets.push({
+        set:k+1,
+        weight:weight === "" ? "" : Number(weight),
+        reps:reps === "" ? "" : Number(reps),
+        done
+      });
+    }
+
+    return {
+      name:e[0],
+      targetSets:count,
+      targetReps:e[2],
+      sets,
+      done:sets.every(s=>s.done)
+    };
+  });
+
+  state.logs.unshift({
+    name:p.name,
+    date:new Date().toISOString(),
+    details,
+    notes:document.getElementById("workoutNotes").value
+  });
+
+  save();
+  alert("Träningspasset har sparats med separata set.");
 }
 function openNewPlan(){
  openModal("Skapa träningspass",`<label class="field">Namn</label><input id="planName" placeholder="Ex. Överkropp"><label class="field">Övningar – en per rad</label><textarea id="planExercises" rows="6" placeholder="Bröstpress&#10;Rodd&#10;Sidolyft"></textarea><div class="actions"><button class="primary" onclick="savePlan()">Skapa pass</button></div>`);
