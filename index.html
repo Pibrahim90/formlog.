@@ -335,11 +335,106 @@ function deleteEntry(index){
  state.entries.splice(index,1);save();
 }
 function renderFoodSearch(){
- const q=(document.getElementById("foodSearch").value||"").toLocaleLowerCase("sv");
- const arr=state.foods.filter(f=>f.name.toLocaleLowerCase("sv").includes(q));
- document.getElementById("foodSearchResults").innerHTML=arr.length?arr.map(f=>`
- <div class="fooditem"><div><div class="itemname">${esc(f.name)}</div><div class="itemsub">${f.unconfirmed?"Näringsvärden saknas":`${fmt(f.kcal)} kcal · P ${f.p} g · K ${f.c} g · F ${f.f} g / 100 g`}</div></div>
- <button ${f.unconfirmed?"disabled":""} onclick="selectFoodByName('${esc(f.name).replace(/'/g,"&#39;")}')">Välj</button></div>`).join(""):'<div class="empty">Inga träffar.</div>';
+  const q = (document.getElementById("foodSearch").value||"")
+    .toLocaleLowerCase("sv");
+
+  const foods = state.foods.filter(f =>
+    f.name.toLocaleLowerCase("sv").includes(q)
+  );
+
+  document.getElementById("foodSearchResults").innerHTML =
+    foods.length ? foods.map(f=>{
+      const i = state.foods.indexOf(f);
+      return `
+        <div class="fooditem">
+          <div style="flex:1;min-width:0">
+            <div class="itemname">${esc(f.name)}</div>
+            <div class="itemsub">${
+              f.unconfirmed ? "Näringsvärden saknas" :
+              `${fmt(f.kcal)} kcal · P ${f.p} g · K ${f.c} g · F ${f.f} g / 100 g`
+            }</div>
+          </div>
+          <button onclick="editFood(${i})">Ändra</button>
+          <button ${f.unconfirmed?"disabled":""}
+            onclick="selectFoodByName('${esc(f.name).replace(/'/g,"&#39;")}')">
+            Välj
+          </button>
+        </div>`;
+    }).join("") : '<div class="empty">Inga träffar.</div>';
+}
+
+function editFood(index){
+  const f = state.foods[index];
+
+  openModal("Redigera livsmedel",`
+    <label class="field">Produktnamn</label>
+    <input id="editFoodName" value="${esc(f.name)}">
+
+    <div class="grid2">
+      <div>
+        <label class="field">Kalorier per 100 g</label>
+        <input id="editFoodKcal" type="number" min="0" step=".1"
+          value="${Number(f.kcal)||0}">
+      </div>
+      <div>
+        <label class="field">Protein (g)</label>
+        <input id="editFoodP" type="number" min="0" step=".1"
+          value="${Number(f.p)||0}">
+      </div>
+      <div>
+        <label class="field">Kolhydrater (g)</label>
+        <input id="editFoodC" type="number" min="0" step=".1"
+          value="${Number(f.c)||0}">
+      </div>
+      <div>
+        <label class="field">Fett (g)</label>
+        <input id="editFoodF" type="number" min="0" step=".1"
+          value="${Number(f.f)||0}">
+      </div>
+    </div>
+
+    <div class="notice">
+      Ändringarna gäller produktens värden för framtida registreringar.
+      Redan registrerade måltider ändras inte.
+    </div>
+
+    <div class="actions">
+      <button class="primary" onclick="saveEditedFood(${index})">
+        Spara produkt
+      </button>
+    </div>
+  `);
+}
+
+function saveEditedFood(index){
+  const name = document.getElementById("editFoodName").value.trim();
+  const kcal = Number(document.getElementById("editFoodKcal").value);
+  const p = Number(document.getElementById("editFoodP").value);
+  const c = Number(document.getElementById("editFoodC").value);
+  const f = Number(document.getElementById("editFoodF").value);
+
+  if(!name || [kcal,p,c,f].some(v=>!Number.isFinite(v)||v<0)){
+    alert("Ange ett namn och giltiga näringsvärden.");
+    return;
+  }
+
+  const duplicate = state.foods.some((food,i)=>
+    i!==index && food.name.toLocaleLowerCase("sv")===name.toLocaleLowerCase("sv")
+  );
+
+  if(duplicate && !confirm("En produkt med detta namn finns redan. Vill du ändå spara?"))
+    return;
+
+  state.foods[index] = {
+    ...state.foods[index],
+    name,kcal,p,c,f,
+    unconfirmed:false
+  };
+
+  save();
+  closeModal();
+  document.getElementById("foodSearch").value = name;
+  renderFoodSearch();
 }
 function selectFoodByName(name){
  selectedFood=state.foods.find(f=>f.name===name)||null;
