@@ -203,6 +203,43 @@ hr{border:0;border-top:1px solid var(--line);margin:14px 0}
 </section>
 
 <section class="page" id="settings">
+ 
+<div class="card" id="appearanceSettings">
+  <h3>🎨 Anpassa utseendet</h3>
+  <p class="muted small">
+    Välj egna färger för bakgrund, paneler, text och accentfärg.
+    Dina val sparas automatiskt.
+  </p>
+
+  <label class="field" for="themeBg">Bakgrund</label>
+  <input type="color" id="themeBg" value="#0b1118">
+
+  <label class="field" for="themePanel">Kort och paneler</label>
+  <input type="color" id="themePanel" value="#14212d">
+
+  <label class="field" for="themeText">Text</label>
+  <input type="color" id="themeText" value="#f2f6fa">
+
+  <label class="field" for="themeAccent">Accentfärg</label>
+  <input type="color" id="themeAccent" value="#32d583">
+
+  <label class="field" for="themeLine">Kantlinjer</label>
+  <input type="color" id="themeLine" value="#2b4051">
+
+  <div class="actions">
+    <button class="primary" onclick="saveAppearance()">
+      Spara färger
+    </button>
+    <button onclick="resetAppearance()">
+      Återställ standard
+    </button>
+  </div>
+
+  <div class="notice">
+    Tips: Välj en tydlig accentfärg som turkos, limegrön,
+    orange eller lila för en personlig träningskänsla.
+  </div>
+</div>
  <h2>⚙ Inställningar & backup</h2>
  <div class="card"><h3>Personlig profil</h3><div class="grid2">
   <div><label class="field">Ålder</label><input id="profileAge" type="number" min="18" max="100" value="36"></div>
@@ -230,6 +267,73 @@ hr{border:0;border-top:1px solid var(--line);margin:14px 0}
 
 <div class="modal" id="modal"><div class="card"><div class="row"><h2 id="modalTitle">Redigera</h2><button onclick="closeModal()">Stäng ✕</button></div><div id="modalBody"></div></div></div>
 
+const APPEARANCE_KEY = "formlog_appearance_v1";
+
+const defaultAppearance = {
+  bg: "#0b1118",
+  panel: "#14212d",
+  text: "#f2f6fa",
+  accent: "#32d583",
+  line: "#2b4051"
+};
+
+function applyAppearance(theme) {
+  const root = document.documentElement;
+
+  root.style.setProperty("--bg", theme.bg);
+  root.style.setProperty("--panel", theme.panel);
+  root.style.setProperty("--panel2", theme.panel);
+  root.style.setProperty("--text", theme.text);
+  root.style.setProperty("--accent", theme.accent);
+  root.style.setProperty("--green", theme.accent);
+  root.style.setProperty("--line", theme.line);
+
+  // Uppdatera även de synliga färgväljarna.
+  for (const key of Object.keys(defaultAppearance)) {
+    const input = document.getElementById(
+      "theme" + key.charAt(0).toUpperCase() + key.slice(1)
+    );
+    if (input) input.value = theme[key];
+  }
+}
+
+function saveAppearance() {
+  const theme = {
+    bg: document.getElementById("themeBg").value,
+    panel: document.getElementById("themePanel").value,
+    text: document.getElementById("themeText").value,
+    accent: document.getElementById("themeAccent").value,
+    line: document.getElementById("themeLine").value
+  };
+
+  localStorage.setItem(APPEARANCE_KEY, JSON.stringify(theme));
+  applyAppearance(theme);
+}
+
+function resetAppearance() {
+  if (!confirm("Vill du återställa standardfärgerna?")) return;
+
+  localStorage.removeItem(APPEARANCE_KEY);
+  applyAppearance(defaultAppearance);
+}
+
+function loadAppearance() {
+  try {
+    const saved = JSON.parse(
+      localStorage.getItem(APPEARANCE_KEY) || "null"
+    );
+
+    applyAppearance({
+      ...defaultAppearance,
+      ...(saved || {})
+    });
+  } catch (error) {
+    applyAppearance(defaultAppearance);
+  }
+}
+
+// Ladda sparat tema när appen startar.
+loadAppearance();
 <script>
 "use strict";
 const STORAGE_KEY="formlog_v1";
